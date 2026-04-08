@@ -1,3 +1,4 @@
+import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
@@ -6,19 +7,16 @@ import logoRu from '@assets/sila_logo__1775666431192.png';
 export default function HeroSection() {
   const { lang } = useLang();
   const t = translations[lang].hero;
-
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  const [, navigate] = useLocation();
 
   return (
     <section
       id="home"
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden"
+      className="relative flex flex-col overflow-hidden"
       style={{
         background: 'radial-gradient(ellipse at 20% 50%, #1a1400 0%, #000000 60%)',
-        paddingTop: '80px',
+        minHeight: '100vh',
+        paddingTop: '64px',
       }}
     >
       {/* Grid pattern */}
@@ -33,20 +31,20 @@ export default function HeroSection() {
         </span>
       </div>
 
-      <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 text-center">
+      {/* Main content — centered in the space above stats */}
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center py-12">
         {/* Logo */}
-        <div className="flex justify-center mb-8 animate-float">
+        <div className="mb-8 animate-float">
           <img
             src={lang === 'en' ? logoEn : logoRu}
             alt="FC SILA"
-            className="h-36 md:h-52 w-auto object-contain"
+            className="h-36 md:h-52 w-auto object-contain mx-auto"
             style={{ filter: 'drop-shadow(0 0 40px rgba(253,225,0,0.25))' }}
           />
         </div>
 
-        {/* Main heading */}
         <h1
-          className="font-black uppercase leading-none mb-3"
+          className="font-black uppercase leading-none mb-3 max-w-4xl"
           style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)', letterSpacing: '-0.02em', color: '#ffffff' }}
         >
           {t.title}
@@ -60,7 +58,7 @@ export default function HeroSection() {
         </p>
 
         {/* Badges */}
-        <div className="flex flex-wrap justify-center gap-2 mb-8">
+        <div className="flex flex-wrap justify-center gap-2 mb-10">
           {[t.badge1, t.badge2, t.badge3, t.badge4].map((badge) => (
             <span
               key={badge}
@@ -74,17 +72,17 @@ export default function HeroSection() {
 
         {/* CTA */}
         <button
-          onClick={() => scrollTo('contact')}
-          className="btn-pulse px-8 py-4 rounded-full text-sm font-black uppercase tracking-wider mb-4 transition-all duration-300 hover:scale-105 hover:brightness-110"
+          onClick={() => { navigate('/contact'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+          className="btn-pulse px-8 py-4 rounded-full text-sm font-black uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:brightness-110 mb-3"
           style={{ background: '#FDE100', color: '#000' }}
         >
           {t.cta} →
         </button>
-        <p className="text-sm mt-3" style={{ color: '#666' }}>{t.trial_note}</p>
+        <p className="text-xs" style={{ color: '#555' }}>{t.trial_note}</p>
       </div>
 
-      {/* Stats strip */}
-      <div className="absolute bottom-0 left-0 right-0 border-t" style={{ borderColor: 'rgba(253,225,0,0.15)' }}>
+      {/* Stats strip — at the very bottom, always */}
+      <div className="relative z-10 border-t" style={{ borderColor: 'rgba(253,225,0,0.15)' }}>
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {[
@@ -100,12 +98,6 @@ export default function HeroSection() {
             ))}
           </div>
         </div>
-      </div>
-
-      {/* Scroll hint */}
-      <div className="absolute bottom-24 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 opacity-30">
-        <span className="text-xs text-gray-500 uppercase tracking-widest">Scroll</span>
-        <div className="w-px h-8 animate-pulse" style={{ background: '#FDE100' }} />
       </div>
     </section>
   );

@@ -20,7 +20,7 @@ export default function AboutSection() {
             <h3 className="text-xl font-black uppercase tracking-wide mb-4" style={{ color: '#FDE100' }}>
               {t.story_title}
             </h3>
-            <div className="rounded-2xl p-7 border mb-6" style={{ background: '#111', borderColor: '#222' }}>
+            <div className="rounded-2xl p-7 border mb-6" style={{ background: '#111', borderColor: '#1a1a1a' }}>
               <p className="text-gray-300 leading-relaxed mb-4">{t.story1}</p>
               <p className="text-gray-300 leading-relaxed mb-4">{t.story2}</p>
               <p className="font-bold text-white">{t.story3}</p>
@@ -29,7 +29,7 @@ export default function AboutSection() {
             <h3 className="text-xl font-black uppercase tracking-wide mb-4" style={{ color: '#FDE100' }}>
               {t.history_title}
             </h3>
-            <div className="rounded-2xl p-7 border mb-6" style={{ background: '#111', borderColor: '#222' }}>
+            <div className="rounded-2xl p-7 border mb-6" style={{ background: '#111', borderColor: '#1a1a1a' }}>
               <p className="text-gray-300 leading-relaxed">{t.history_text}</p>
             </div>
 
@@ -48,7 +48,7 @@ export default function AboutSection() {
                 <div
                   key={i}
                   className="card-lift rounded-xl p-4 border flex items-start gap-4"
-                  style={{ background: '#111', borderColor: '#222' }}
+                  style={{ background: '#111', borderColor: '#1a1a1a' }}
                 >
                   <div
                     className="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center font-black text-sm"
@@ -64,18 +64,20 @@ export default function AboutSection() {
               ))}
             </div>
 
-            {/* Legal info box */}
+            {/* Legal info box — without Authorized Capital */}
             <div className="rounded-2xl p-6 border" style={{ background: '#0d0d0d', borderColor: '#FDE100' }}>
               <h3 className="font-black text-base uppercase tracking-wide mb-4" style={{ color: '#FDE100' }}>
                 📜 {t.legal_title}
               </h3>
-              <div className="grid sm:grid-cols-2 gap-2">
+              <div className="space-y-2">
                 {Object.values(t.legal).map((item, i) => {
-                  const [key, ...rest] = item.split(': ');
+                  const colonIdx = item.indexOf(': ');
+                  const key = item.slice(0, colonIdx);
+                  const val = item.slice(colonIdx + 2);
                   return (
-                    <div key={i} className="py-2 border-b" style={{ borderColor: '#222' }}>
+                    <div key={i} className="py-2 border-b last:border-b-0" style={{ borderColor: '#1a1a1a' }}>
                       <span className="text-xs font-bold" style={{ color: '#FDE100' }}>{key}:</span>
-                      <span className="text-xs text-gray-400 ml-1">{rest.join(': ')}</span>
+                      <span className="text-xs text-gray-400 ml-1">{val}</span>
                     </div>
                   );
                 })}
