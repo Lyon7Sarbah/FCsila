@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FC SILA Moscow | Youth Football Academy</title>
+    
+    <!-- PWA - Add to Home Screen -->
+    <link rel="manifest" href="data:application/manifest+json,{%22name%22:%22FC%20SILA%20Moscow%22,%22short_name%22:%22FC%20SILA%22,%22description%22:%22Youth%20Football%20Academy%20in%20Moscow%22,%22start_url%22:%22/%22,%22display%22:%22standalone%22,%22theme_color%22:%22%23FDE100%22,%22background_color%22:%22%23000000%22,%22icons%22:[{%22src%22:%22data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%20100%20100'%3E%3Crect%20width='100'%20height='100'%20fill='%23FDE100'/%3E%3Ctext%20x='50'%20y='67'%20text-anchor='middle'%20font-size='50'%20fill='black'%3E⚽%3C/text%3E%3C/svg%3E%22,%22sizes%22:%22any%22}]}">
+    <meta name="theme-color" content="#FDE100">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="FC SILA">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FDE100'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='50' fill='black'%3E⚽%3C/text%3E%3C/svg%3E">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' fill='%23FDE100'/%3E%3Ctext x='50' y='67' text-anchor='middle' font-size='50' fill='black'%3EFS%3C/text%3E%3C/svg%3E">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        /* Dortmund Colors */
+        :root {
+            --black: #000000;
+            --yellow: #FDE100;
+            --yellow-dark: #E0C800;
+            --white: #FFFFFF;
+            --gray: #1A1A1A;
+            --gray-light: #333333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: var(--black);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 2px solid var(--yellow);
+            padding: 15px 0;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            cursor: pointer;
+        }
+
+        .logo h1 {
+            color: var(--yellow);
+            font-size: 1.8rem;
+            line-height: 1;
+        }
+
+        .logo p {
+            color: var(--white);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        nav ul li a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: var(--yellow);
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            display: flex;
+            gap: 10px;
+            background: var(--gray);
+            padding: 5px;
+            border-radius: 40px;
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            color: var(--white);
+            padding: 6px 15px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.8rem;
+            color: var(--yellow);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            margin-top: 80px;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            color: var(--yellow);
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-tagline {
+            font-size: 1.2rem;
+            color: #CCCCCC;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badges {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .hero-badges span {
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            text-decoration: none;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        .btn-primary:hover {
+            background: var(--yellow-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--yellow);
+            border: 2px solid var(--yellow);
+        }
+
+        .btn-outline:hover {
+            background: var(--yellow);
+            color: var(--black);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            position: relative;
+            margin-bottom: 3rem;
+            font-size: 2rem;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--yellow);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .dark-bg {
+            background: var(--gray);
+        }
+
+        /* Age Cards */
+        .age-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .age-card {
+            background: var(--black);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--gray-light);
+            transition: transform 0.3s;
+        }
+
+        .age-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--yellow);
+        }
+
+        .age-badge {
+            display: inline-block;
+            background: var(--yellow);
+            color: var(--black);
+            padding: 5px 15px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .age-card h3 {
+            color: var(--yellow);
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+        }
+
+        .age-icon {
+            font-size: 3rem;
+            margin: 1rem 0;
+        }
+
+        .age-card ul {
+            text-align: left;
+            list-style: none;
+            margin: 1.5rem 0;
+        }
+
+        .age-card ul li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .age-card ul li::before {
+            content: "⚽";
+            position: absolute;
+            left: -0.5rem;
+            color: var(--yellow);
+        }
+
+        .age-price {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--yellow);
+            margin: 1.5rem 0;
+        }
+
+        /* About Grid */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .about-text h3, .about-values h3 {
+            color: var(--yellow);
+            margin-top: 1.5rem;
+        }
+
+        .about-values ul {
+            list-style: none;
+        }
+
+        .about-values ul li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .about-values ul li strong {
+            color: var(--yellow);
+        }
+
+        .motto {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--yellow);
+            color: var(--black);
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        /* Legal Info Box */
+        .legal-info {
+            background: var(--black);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border: 1px solid var(--yellow);
+        }
+
+        .legal-info h3 {
+            color: var(--yellow);
+            margin-bottom: 1rem;
+        }
+
+        .legal-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .legal-item {
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .legal-item strong {
+            color: var(--yellow);
+        }
+
+        /* Coaches */
+        .coaches-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .coach-card {
+            background: var(--black);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid var(--gray-light);
+        }
+
+        .coach-icon {
+            width: 120px;
+            height: 120px;
+            background: var(--gray);
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border: 3px solid var(--yellow);
+        }
+
+        /* Players Stats */
+        .players-stats {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--yellow);
+            display: block;
+        }
+
+        /* Matches Table */
+        .matches-table {
+            background: var(--black);
+            border-radius: 16px;
+            overflow-x: auto;
+            margin-bottom: 2rem;
+        }
+
+        .match-row {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            min-width: 500px;
+        }
+
+        .match-row.header {
+            background: var(--yellow);
+            color: var(--black);
+            font-weight: 700;
+        }
+
+        /* Training Schedule */
+        .schedule-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-light);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .day {
+            font-weight: 700;
+            color: var(--yellow);
+        }
+
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .status.open {
+            background: rgba(253,225,0,0.2);
+            color: var(--yellow);
+        }
+
+        /* Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-placeholder {
+            background: var(--gray);
+            border-radius: 16px;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            border: 1px solid var(--gray-light);
+        }
+
+        /* Contact Form */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-detail {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .contact-detail a {
+            color: var(--yellow);
+            text-decoration: none;
+        }
+
+        .contact-detail a:hover {
+            text-decoration: underline;
+        }
+
+        .registration-form input,
+        .registration-form select,
+        .registration-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            background: var(--gray);
+            border: 1px solid var(--gray-light);
+            border-radius: 8px;
+            color: var(--white);
+            font-family: inherit;
+        }
+
+        .registration-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--black);
+            border-top: 1px solid var(--gray-light);
+            padding: 40px 0 20px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-logo h2 {
+            color: var(--yellow);
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links ul li a {
+            color: #CCCCCC;
+            text-decoration: none;
+            line-height: 2;
+        }
+
+        .footer-links ul li a:hover {
+            color: var(--yellow);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-light);
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            nav {
+                display: none;
+                width: 100%;
+            }
+            
+            nav.show {
+                display: block;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                padding: 20px 0;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .about-grid,
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-grid {
+                gap: 1.5rem;
+            }
+            
+            .age-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="logo" id="logo">
+                <h1 id="logoText">FC SILA</h1>
+                <p id="logoSub">MOSCOW</p>
+            </div>
+            <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#home" onclick="closeMenu()" data-key="navHome">Home</a></li>
+                    <li><a href="#about" onclick="closeMenu()" data-key="navAbout">About</a></li>
+                    <li><a href="#academy" onclick="closeMenu()" data-key="navAcademy">Academy</a></li>
+                    <li><a href="#coaches" onclick="closeMenu()" data-key="navCoaches">Coaches</a></li>
+                    <li><a href="#players" onclick="closeMenu()" data-key="navPlayers">Players</a></li>
+                    <li><a href="#matches" onclick="closeMenu()" data-key="navMatches">Matches</a></li>
+                    <li><a href="#training" onclick="closeMenu()" data-key="navTraining">Training</a></li>
+                    <li><a href="#gallery" onclick="closeMenu()" data-key="navGallery">Gallery</a></li>
+                    <li><a href="#contact" onclick="closeMenu()" data-key="navContact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="lang-switcher">
+                <button class="lang-btn active" onclick="setLanguage('en')">EN</button>
+                <button class="lang-btn" onclick="setLanguage('ru')">RU</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="container hero-content">
+            <h1 id="heroTitle">FC SILA MOSCOW</h1>
+            <p class="hero-subtitle" id="heroSubtitle">Youth Football Academy | Ages 7-15</p>
+            <p class="hero-tagline" id="heroTagline">Build your game. Find your family.</p>
+            <div class="hero-badges">
+                <span id="badge1">✓ Registered Moscow Club</span>
+                <span id="badge2">✓ Saturday Sessions</span>
+                <span id="badge3">✓ Professional Coaching</span>
+                <span id="badge4">✓ Monthly Matches</span>
+            </div>
+            <a href="#contact" class="btn btn-primary" id="heroBtn">JOIN A TRIAL SESSION →</a>
+            <p style="margin-top: 1rem; font-size: 0.85rem; color: #AAAAAA;" id="trialNote">Trial: 2,000 RUB (deducted from monthly fee if you join)</p>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="dark-bg">
+        <div class="container">
+            <h2 class="section-title" id="aboutTitle">ABOUT FC SILA</h2>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3 id="storyTitle">Our Story</h3>
+                    <p id="storyText1">FC SILA is a registered football club based in Moscow, relaunched with a clear mission: to develop young footballers through focused, high-quality coaching and small-sided match play.</p>
+                    <p id="storyText2">After a two-year pause, we have rebuilt our program from the ground up. We listened to parents. We studied best practices in youth development. And we created an academy that puts technique, enjoyment, and individual growth above winning trophies.</p>
+                    <p id="storyText3"><strong>We are not the biggest academy in Moscow. We aim to be the best for your child.</strong></p>
+                    
+                    <h3 id="historyTitle">Our History in Moscow</h3>
+                    <p id="historyText">FC SILA has been a registered football club in Moscow since <strong>March 6, 2020</strong> (OGRN: 1207700105073). Our registration with the Russian football authorities confirms our legitimacy and commitment to structured, safe youth football.</p>
+                </div>
+                <div class="about-values">
+                    <h3 id="valuesTitle">Our Values</h3>
+                    <ul>
+                        <li id="value1"><strong>Technique First</strong> – Every session emphasizes ball mastery</li>
+                        <li id="value2"><strong>Small Groups</strong> – Max 12 players per coach</li>
+                        <li id="value3"><strong>Fair Play</strong> – Respect for teammates, opponents, coaches</li>
+                        <li id="value4"><strong>Family Atmosphere</strong> – Parents are partners, not customers</li>
+                        <li id="value5"><strong>Resilience</strong> – Learn to lose, learn to win</li>
+                    </ul>
+                    <div class="motto">
+                        <p id="motto">"Stronger together. Better every Saturday."</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Legal Information Box -->
+            <div class="legal-info">
+                <h3 id="legalTitle">📜 Legal Information</h3>
+                <div class="legal-info-grid">
+                    <div class="legal-item"><strong>OGRN:</strong> 1207700105073</div>
+                    <div class="legal-item"><strong>INN/KPP:</strong> 9715380269 / 502701001</div>
+                    <div class="legal-item"><strong>Registration Date:</strong> March 6, 2020</div>
+                    <div class="legal-item"><strong>Authorized Capital:</strong> 10,000 RUB</div>
+                    <div class="legal-item"><strong>Legal Address:</strong> 140009, Moscow region, Lyubertsy, Motyakovo village, SNTSN Yelochka, 38a, room 1</div>
+                    <div class="legal-item"><strong>General Director:</strong> Shishelov Vladislav Olegovich</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Academy Section (Two Age Groups) -->
+    <section id="academy">
+        <div class="container">
+            <h2 class="section-title" id="academyTitle">ACADEMY PROGRAM</h2>
+            <div class="age-grid">
+                <!-- Ages 7-10 -->
+                <div class="age-card">
+                    <div class="age-badge" id="badge7_10">FOUNDATION</div>
+                    <h3 id="age7_10Title">AGES 7-10</h3>
+                    <div class="age-icon">⚽</div>
+                    <p id="age7_10Desc">The <strong>"Golden Age of Learning"</strong> – when coordination, speed, and technique develop fastest.</p>
+                    <ul>
+                        <li id="age7_10_1">Ball mastery – hundreds of touches per session</li>
+                        <li id="age7_10_2">1v1 confidence – beating opponents</li>
+                        <li id="age7_10_3">Small-sided games (4v4)</li>
+                        <li id="age7_10_4">No benchwarmers – every child plays equally</li>
+                        <li id="age7_10_5">Fun-first approach</li>
+                    </ul>
+                    <div class="age-price" id="age7_10Price">10,000 RUB/month</div>
+                    <a href="#contact" class="btn btn-outline" id="age7_10Btn">Enroll Now →</a>
+                </div>
+                
+                <!-- Ages 11-15 -->
+                <div class="age-card">
+                    <div class="age-badge" id="badge11_15">DEVELOPMENT</div>
+                    <h3 id="age11_15Title">AGES 11-15</h3>
+                    <div class="age-icon">🏆</div>
+                    <p id="age11_15Desc">The <strong>"Tactical Age"</strong> – building game intelligence, positioning, and competitive spirit.</p>
+                    <ul>
+                        <li id="age11_15_1">Tactical awareness and positioning</li>
+                        <li id="age11_15_2">Position-specific training</li>
+                        <li id="age11_15_3">8v8 and 11v11 match preparation</li>
+                        <li id="age11_15_4">Physical conditioning and speed</li>
+                        <li id="age11_15_5">Competitive friendlies vs other academies</li>
+                    </ul>
+                    <div class="age-price" id="age11_15Price">12,000 RUB/month</div>
+                    <a href="#contact" class="btn btn-outline" id="age11_15Btn">Enroll Now →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coaches Section -->
+    <section id="coaches" class="dark-bg">
+        <div class="container">
+            <h2 class="section-title" id="coachesTitle">OUR COACHES</h2>
+            <div class="coaches-grid">
+                <div class="coach-card">
+                    <div class="coach-icon">👨‍🏫</div>
+                    <h3 id="coach1Name">Vladislav Shishelov</h3>
+                    <p id="coach1Title">Head Coach & Founder</p>
+                    <p id="coach1Desc">Focus: Technical development, age-appropriate training, building confidence. Founder and General Director of FC SILA.</p>
+                    <p><em id="coach1Quote">"Every child deserves to love the game. My job is to make sure they do."</em></p>
+                </div>
+                <div class="coach-card">
+                    <div class="coach-icon">👨‍🏫</div>
+                    <h3 id="coach2Name">[Assistant Coach Name]</h3>
+                    <p id="coach2Title">Assistant Coach</p>
+                    <p id="coach2Desc">Specializes in small-sided games and match preparation. Background in youth development.</p>
+                    <p><em id="coach2Quote">Position available – we are hiring RFU-licensed coaches.</em></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Players Section -->
+    <section id="players">
+        <div class="container">
+            <h2 class="section-title" id="playersTitle">OUR PLAYERS</h2>
+            <div class="players-stats">
+                <div class="stat">
+                    <span class="stat-number" id="playerCount">0</span>
+                    <span class="stat-label" id="playerCountLabel">Current Players</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label" id="maxPerGroup">Max per Group</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">2</span>
+                    <span class="stat-label" id="ageGroupsLabel">Age Groups</span>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 2rem 0;">
+                <h3 id="playerOfMonth">⚡ Player of the Month</h3>
+                <p id="playerOfMonthText"><em>Coming soon – our first Player of the Month will be announced after our first session.</em></p>
+            </div>
+            
+            <div>
+                <h3 id="testimonialsTitle">What Parents Say</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                    <div style="background: var(--gray); padding: 1.5rem; border-radius: 16px; font-style: italic;">
+                        <p id="testimonial1">"My son looks forward to Saturday all week. The coaches really care about each child."</p>
+                        <p style="margin-top: 1rem; color: var(--yellow);">— Parent of player, age 8</p>
+                    </div>
+                    <div style="background: var(--gray); padding: 1.5rem; border-radius: 16px; font-style: italic;">
+                        <p id="testimonial2">"Finally, an academy that focuses on technique instead of just running drills."</p>
+                        <p style="margin-top: 1rem; color: var(--yellow);">— Parent of player, age 12</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matches Section -->
+    <section id="matches" class="dark-bg">
+        <div class="container">
+            <h2 class="section-title" id="matchesTitle">MATCHES</h2>
+            <div style="background: var(--black); padding: 1.5rem; border-radius: 16px; margin-bottom: 2rem;">
+                <h3 id="matchPhilosophyTitle">Our Match Philosophy</h3>
+                <p id="matchPhilosophyText">For ages 7-10, we focus on internal friendly matches. For ages 11-15, we arrange competitive friendlies with other Moscow academies. No pressure to win at young ages. Every child plays equal minutes.</p>
+            </div>
+            
+            <h3 id="upcomingMatches">📅 Upcoming Matches</h3>
+            <div class="matches-table">
+                <div class="match-row header">
+                    <span id="matchDate">Date</span>
+                    <span id="matchType">Match Type</span>
+                    <span id="matchOpponent">Opponent</span>
+                    <span id="matchAge">Age Group</span>
+                    <span id="matchTime">Time</span>
+                </div>
+                <div class="match-row">
+                    <span>25 October 2024</span>
+                    <span>Internal Tournament</span>
+                    <span>FC SILA (Red vs White)</span>
+                    <span>7-10 & 11-15</span>
+                    <span>11:00-13:00</span>
+                </div>
+                <div class="match-row">
+                    <span>22 November 2024</span>
+                    <span>Friendly Match</span>
+                    <span>TBD Academy</span>
+                    <span>11-15 only</span>
+                    <span>11:00-13:00</span>
+                </div>
+                <div class="match-row">
+                    <span>20 December 2024</span>
+                    <span>Internal Festival</span>
+                    <span>Mixed Teams</span>
+                    <span>All ages</span>
+                    <span>11:00-13:00</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Training Section -->
+    <section id="training">
+        <div class="container">
+            <h2 class="section-title" id="trainingTitle">TRAINING</h2>
+            <div style="background: var(--gray); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+                <h3 id="scheduleTitle">Weekly Training Schedule</h3>
+                <div class="schedule-row">
+                    <span class="day">Saturday</span>
+                    <span>11:00 – 13:00</span>
+                    <span>Ages 7-10</span>
+                    <span class="status open">Open</span>
+                </div>
+                <div class="schedule-row">
+                    <span class="day">Saturday</span>
+                    <span>13:30 – 15:30</span>
+                    <span>Ages 11-15</span>
+                    <span class="status open">Open</span>
+                </div>
+            </div>
+            
+            <h3 id="sessionPlanTitle">Typical 2-Hour Session Plan</h3>
+            <div style="background: var(--gray); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem;">
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">0-10 min</span> Warm-up with ball (dribbling tag)</div>
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">10-25 min</span> Ball mastery (toe taps, rolls, turns)</div>
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">25-40 min</span> 1v1 to small goals</div>
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">40-60 min</span> 2v2 + 3v3 (no goalkeepers)</div>
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">60-80 min</span> 4v4 or 8v8 match simulation</div>
+                <div style="padding: 0.8rem; border-bottom: 1px solid var(--gray-light);"><span style="font-weight: 700; color: var(--yellow);">80-90 min</span> Cool-down + match announcement</div>
+                <div style="padding: 0.8rem;"><span style="font-weight: 700; color: var(--yellow);">90-120 min</span> Full friendly match (once per month)</div>
+            </div>
+            
+            <h3 id="gearTitle">What to Bring</h3>
+            <div style="background: var(--gray); border-radius: 16px; padding: 1.5rem;">
+                <div>⚽ Size 4 (ages 7-10) or Size 5 (ages 11-15) football – with name written on it</div>
+                <div>👟 Boots (outdoor or indoor depending on surface)</div>
+                <div>🛡️ Shin pads</div>
+                <div>💧 Water bottle</div>
+                <div>🧥 Weather-appropriate clothing (we train in most Moscow weather)</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="dark-bg">
+        <div class="container">
+            <h2 class="section-title" id="galleryTitle">GALLERY</h2>
+            <div class="gallery-grid">
+                <div class="gallery-placeholder">
+                    <div>
+                        <span style="font-size: 3rem;">📸</span>
+                        <p>Training Session Photos</p>
+                        <small>Coming after first session</small>
+                    </div>
+                </div>
+                <div class="gallery-placeholder">
+                    <div>
+                        <span style="font-size: 3rem;">🏆</span>
+                        <p>Match Day Photos</p>
+                        <small>Coming after first session</small>
+                    </div>
+                </div>
+                <div class="gallery-placeholder">
+                    <div>
+                        <span style="font-size: 3rem;">👥</span>
+                        <p>Team Photos</p>
+                        <small>Coming after first session</small>
+                    </div>
+                </div>
+                <div class="gallery-placeholder">
+                    <div>
+                        <span style="font-size: 3rem;">🎉</span>
+                        <p>Festival & Awards</p>
+                        <small>Coming after first session</small>
+                    </div>
+                </div>
+            </div>
+            <p style="text-align: center; margin-top: 1rem; color: #888; font-size: 0.8rem;">*Parents will be asked to sign a media consent form before any photos of children are published.</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div class="container">
+            <h2 class="section-title" id="contactTitle">CONTACT & REGISTRATION</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Get in Touch</h3>
+                    <div class="contact-detail">📍 <strong>Training Location:</strong> [Pitch address and nearest metro station]</div>
+                    <div class="contact-detail">📞 <strong>Phone:</strong> [Your phone number]</div>
+                    <div class="contact-detail">✉️ <strong>Email:</strong> <a href="mailto:info@fcsila.ru">info@fcsila.ru</a></div>
+                    <div class="contact-detail">🌐 <strong>Website:</strong> <a href="https://www.fcsila.ru" target="_blank">www.fcsila.ru</a></div>
+                    <div class="contact-detail">💬 <strong>Telegram:</strong> [Link to your Telegram channel]</div>
+                    <div class="contact-detail">📱 <strong>WhatsApp:</strong> [Your WhatsApp number]</div>
+                    <div class="contact-detail">📷 <strong>Instagram:</strong> [Your Instagram handle]</div>
+                    
+                    <div style="margin-top: 2rem;">
+                        <h3>📍 Legal Address</h3>
+                        <div class="contact-detail">140009, Moscow region, Lyubertsy, Motyakovo village, SNTSN Yelochka, 38a, room 1</div>
+                    </div>
+                </div>
+                
+                <div class="registration-form">
+                    <h3>Request a Trial Session</h3>
+                    <form id="registrationForm" action="mailto:info@fcsila.ru" method="post" enctype="text/plain">
+                        <input type="text" placeholder="Parent/Guardian Name" required>
+                        <input type="tel" placeholder="Phone Number" required>
+                        <input type="email" placeholder="Email Address" required>
+                        <input type="text" placeholder="Child's Full Name" required>
+                        <input type="number" placeholder="Child's Age" min="7" max="15" required>
+                        <select required>
+                            <option value="">Select Age Group</option>
+                            <option value="7-10">Foundation (Ages 7-10)</option>
+                            <option value="11-15">Development (Ages 11-15)</option>
+                        </select>
+                        <select>
+                            <option value="">Previous Football Experience</option>
+                            <option value="none">None – Beginner</option>
+                            <option value="some">Some – Played casually</option>
+                            <option value="club">Club experience</option>
+                        </select>
+                        <textarea placeholder="Any medical conditions or allergies? (Optional)"></textarea>
+                        <button type="submit" class="btn btn-primary">REQUEST TRIAL SESSION →</button>
+                    </form>
+                    <p class="form-note" style="margin-top: 1rem; font-size: 0.8rem; color: #888;">Trial session: 2,000 RUB (one time – deducted from first month's fee if you join)</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-logo">
+                    <h2>FC SILA</h2>
+                    <p>MOSCOW</p>
+                    <p style="margin-top: 10px; font-size: 0.8rem;">Registered football club, Moscow, Russia</p>
+                    <p style="font-size: 0.7rem; color: #666;">OGRN: 1207700105073 | INN: 9715380269</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#home">Home</a></li>
+                        <li><a href="#about">About</a></li>
+                        <li><a href="#academy">Academy</a></li>
+                        <li><a href="#coaches">Coaches</a></li>
+                        <li><a href="#players">Players</a></li>
+                        <li><a href="#matches">Matches</a></li>
+                        <li><a href="#training">Training</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><a href="mailto:info@fcsila.ru">info@fcsila.ru</a></li>
+                        <li><a href="https://www.fcsila.ru" target="_blank">www.fcsila.ru</a></li>
+                        <li>📞 [Your Phone]</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FC SILA Moscow. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const nav = document.getElementById('nav');
+            nav.classList.toggle('show');
+        }
+        
+        function closeMenu() {
+            const nav = document.getElementById('nav');
+            nav.classList.remove('show');
+        }
+        
+        // Language translations
+        const translations = {
+            en: {
+                logoText: "FC SILA",
+                logoSub: "MOSCOW",
+                heroTitle: "FC SILA MOSCOW",
+                heroSubtitle: "Youth Football Academy | Ages 7-15",
+                heroTagline: "Build your game. Find your family.",
+                badge1: "✓ Registered Moscow Club",
+                badge2: "✓ Saturday Sessions",
+                badge3: "✓ Professional Coaching",
+                badge4: "✓ Monthly Matches",
+                heroBtn: "JOIN A TRIAL SESSION →",
+                trialNote: "Trial: 2,000 RUB (deducted from monthly fee if you join)",
+                aboutTitle: "ABOUT FC SILA",
+                storyTitle: "Our Story",
+                storyText1: "FC SILA is a registered football club based in Moscow, relaunched with a clear mission: to develop young footballers through focused, high-quality coaching and small-sided match play.",
+                storyText2: "After a two-year pause, we have rebuilt our program from the ground up. We listened to parents. We studied best practices in youth development. And we created an academy that puts technique, enjoyment, and individual growth above winning trophies.",
+                storyText3: "We are not the biggest academy in Moscow. We aim to be the best for your child.",
+                historyTitle: "Our History in Moscow",
+                historyText: "FC SILA has been a registered football club in Moscow since March 6, 2020 (OGRN: 1207700105073). Our registration with the Russian football authorities confirms our legitimacy and commitment to structured, safe youth football.",
+                valuesTitle: "Our Values",
+                value1: "Technique First – Every session emphasizes ball mastery",
+                value2: "Small Groups – Max 12 players per coach",
+                value3: "Fair Play – Respect for teammates, opponents, coaches",
+                value4: "Family Atmosphere – Parents are partners, not customers",
+                value5: "Resilience – Learn to lose, learn to win",
+                motto: '"Stronger together. Better every Saturday."',
+                legalTitle: "📜 Legal Information",
+                academyTitle: "ACADEMY PROGRAM",
+                badge7_10: "FOUNDATION",
+                age7_10Title: "AGES 7-10",
+                age7_10Desc: 'The "Golden Age of Learning" – when coordination, speed, and technique develop fastest.',
+                age7_10_1: "Ball mastery – hundreds of touches per session",
+                age7_10_2: "1v1 confidence – beating opponents",
+                age7_10_3: "Small-sided games (4v4)",
+                age7_10_4: "No benchwarmers – every child plays equally",
+                age7_10_5: "Fun-first approach",
+                age7_10Price: "10,000 RUB/month",
+                age7_10Btn: "Enroll Now →",
+                badge11_15: "DEVELOPMENT",
+                age11_15Title: "AGES 11-15",
+                age11_15Desc: 'The "Tactical Age" – building game intelligence, positioning, and competitive spirit.',
+                age11_15_1: "Tactical awareness and positioning",
+                age11_15_2: "Position-specific training",
+                age11_15_3: "8v8 and 11v11 match preparation",
+                age11_15_4: "Physical conditioning and speed",
+                age11_15_5: "Competitive friendlies vs other academies",
+                age11_15Price: "12,000 RUB/month",
+                age11_15Btn: "Enroll Now →",
+                coachesTitle: "OUR COACHES",
+                coach1Name: "Vladislav Shishelov",
+                coach1Title: "Head Coach & Founder",
+                coach1Desc: "Focus: Technical development, age-appropriate training, building confidence. Founder and General Director of FC SILA.",
+                coach1Quote: '"Every child deserves to love the game. My job is to make sure they do."',
+                coach2Name: "[Assistant Coach Name]",
+                coach2Title: "Assistant Coach",
+                coach2Desc: "Specializes in small-sided games and match preparation. Background in youth development.",
+                coach2Quote: "Position available – we are hiring RFU-licensed coaches.",
+                playersTitle: "OUR PLAYERS",
+                playerCountLabel: "Current Players",
+                maxPerGroup: "Max per Group",
+                ageGroupsLabel: "Age Groups",
+                playerOfMonth: "⚡ Player of the Month",
+                playerOfMonthText: "Coming soon – our first Player of the Month will be announced after our first session.",
+                testimonialsTitle: "What Parents Say",
+                testimonial1: '"My son looks forward to Saturday all week. The coaches really care about each child."',
+                testimonial2: '"Finally, an academy that focuses on technique instead of just running drills."',
+                matchesTitle: "MATCHES",
+                matchPhilosophyTitle: "Our Match Philosophy",
+                matchPhilosophyText: "For ages 7-10, we focus on internal friendly matches. For ages 11-15, we arrange competitive friendlies with other Moscow academies. No pressure to win at young ages. Every child plays equal minutes.",
+                upcomingMatches: "📅 Upcoming Matches",
+                matchDate: "Date",
+                matchType: "Match Type",
+                matchOpponent: "Opponent",
+                matchAge: "Age Group",
+                matchTime: "Time",
+                trainingTitle: "TRAINING",
+                scheduleTitle: "Weekly Training Schedule",
+                sessionPlanTitle: "Typical 2-Hour Session Plan",
+                gearTitle: "What to Bring",
+                galleryTitle: "GALLERY",
+                contactTitle: "CONTACT & REGISTRATION"
+            },
+            ru: {
+                logoText: "ФК СИЛА",
+                logoSub: "МОСКВА",
+                heroTitle: "ФК СИЛА МОСКВА",
+                heroSubtitle: "Детская футбольная академия | Возраст 7-15 лет",
+                heroTagline: "Развивай игру. Найди семью.",
+                badge1: "✓ Зарегистрированный клуб Москвы",
+                badge2: "✓ Тренировки по субботам",
+                badge3: "✓ Профессиональные тренеры",
+                badge4: "✓ Ежемесячные матчи",
+                heroBtn: "ЗАПИСАТЬСЯ НА ПРОБНОЕ ЗАНЯТИЕ →",
+                trialNote: "Пробное занятие: 2 000 ₽ (вычитается из месячного взноса)",
+                aboutTitle: "О ФК СИЛА",
+                storyTitle: "Наша история",
+                storyText1: "ФК СИЛА - зарегистрированный футбольный клуб в Москве, перезапущенный с четкой миссией: развивать юных футболистов через целенаправленные тренировки высокого качества и игры в малых составах.",
+                storyText2: "После двухлетнего перерыва мы полностью перестроили нашу программу. Мы прислушались к родителям, изучили лучшие практики развития юных игроков и создали академию, которая ставит технику, удовольствие и индивидуальный рост выше побед.",
+                storyText3: "Мы не самая большая академия в Москве. Мы стремимся быть лучшими для вашего ребенка.",
+                historyTitle: "Наша история в Москве",
+                historyText: "ФК СИЛА является зарегистрированным футбольным клубом в Москве с 6 марта 2020 года (ОГРН: 1207700105073). Наша регистрация подтверждает легитимность и приверженность структурированному, безопасному детскому футболу.",
+                valuesTitle: "Наши ценности",
+                value1: "Техника прежде всего – каждое занятие направлено на работу с мячом",
+                value2: "Небольшие группы – максимум 12 игроков на тренера",
+                value3: "Честная игра – уважение к партнерам, соперникам и тренерам",
+                value4: "Семейная атмосфера – родители партнеры, а не клиенты",
+                value5: "Устойчивость – учимся проигрывать, учимся побеждать",
+                motto: '"Сильнее вместе. Лучше каждую субботу."',
+                legalTitle: "📜 Реквизиты",
+                academyTitle: "ПРОГРАММА АКАДЕМИИ",
+                badge7_10: "ОСНОВА",
+                age7_10Title: "ВОЗРАСТ 7-10 ЛЕТ",
+                age7_10Desc: '"Золотой возраст обучения" – когда координация, скорость и техника развиваются быстрее всего.',
+                age7_10_1: "Работа с мячом – сотни касаний за занятие",
+                age7_10_2: "Уверенность в 1х1 – обыгрывание соперников",
+                age7_10_3: "Игры в малых составах (4х4)",
+                age7_10_4: "Никого на скамейке – каждый ребенок играет",
+                age7_10_5: "Подход, основанный на удовольствии",
+                age7_10Price: "10 000 ₽/месяц",
+                age7_10Btn: "Записаться →",
+                badge11_15: "РАЗВИТИЕ",
+                age11_15Title: "ВОЗРАСТ 11-15 ЛЕТ",
+                age11_15Desc: '"Тактический возраст" – развитие игрового интеллекта, позиционирования и духа соперничества.',
+                age11_15_1: "Тактическое понимание и позиционирование",
+                age11_15_2: "Тренировки по амплуа",
+                age11_15_3: "Подготовка к матчам 8х8 и 11х11",
+                age11_15_4: "Физическая подготовка и скорость",
+                age11_15_5: "Товарищеские матчи с другими академиями",
+                age11_15Price: "12 000 ₽/месяц",
+                age11_15Btn: "Записаться →",
+                coachesTitle: "НАШИ ТРЕНЕРЫ",
+                coach1Name: "Владислав Шишелов",
+                coach1Title: "Главный тренер и основатель",
+                coach1Desc: "Специализация: техническое развитие, возрастные тренировки, формирование уверенности. Основатель и генеральный директор ФК СИЛА.",
+                coach1Quote: '"Каждый ребенок заслуживает любить игру. Моя задача – сделать так, чтобы они её полюбили."',
+                coach2Name: "[Имя ассистента]",
+                coach2Title: "Ассистент тренера",
+                coach2Desc: "Специализируется на играх в малых составах и подготовке к матчам. Опыт работы с детьми.",
+                coach2Quote: "Вакансия открыта – мы нанимаем тренеров с лицензией РФС.",
+                playersTitle: "НАШИ ИГРОКИ",
+                playerCountLabel: "Текущих игроков",
+                maxPerGroup: "Максимум в группе",
+                ageGroupsLabel: "Возрастных групп",
+                playerOfMonth: "⚡ Игрок месяца",
+                playerOfMonthText: "Скоро – первый игрок месяца будет объявлен после первого занятия.",
+                testimonialsTitle: "Что говорят родители",
+                testimonial1: '"Мой сын ждет субботу всю неделю. Тренеры действительно заботятся о каждом ребенке."',
+                testimonial2: '"Наконец-то академия, которая фокусируется на технике, а не на беговых упражнениях."',
+                matchesTitle: "МАТЧИ",
+                matchPhilosophyTitle: "Наша философия матчей",
+                matchPhilosophyText: "Для возраста 7-10 лет мы фокусируемся на внутренних товарищеских матчах. Для 11-15 лет организуем товарищеские встречи с другими академиями Москвы. Без давления результата. Каждый ребенок играет равное количество минут.",
+                upcomingMatches: "📅 Предстоящие матчи",
+                matchDate: "Дата",
+                matchType: "Тип матча",
+                matchOpponent: "Соперник",
+                matchAge: "Возраст",
+                matchTime: "Время",
+                trainingTitle: "ТРЕНИРОВКИ",
+                scheduleTitle: "Расписание тренировок",
+                sessionPlanTitle: "Типовой план 2-часового занятия",
+                gearTitle: "Что взять с собой",
+                galleryTitle: "ГАЛЕРЕЯ",
+                contactTitle: "КОНТАКТЫ И ЗАПИСЬ"
+            }
+        };
+        
+        let currentLang = 'en';
+        
+        function setLanguage(lang) {
+            currentLang = lang;
+            
+            // Update active button styling
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Update all translatable elements
+            const t = translations[lang];
+            for (const [key, value] of Object.entries(t)) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+            
+            // Update logo separately
+            document.getElementById('logoText').textContent = t.logoText;
+            document.getElementById('logoSub').textContent = t.logoSub;
+            
+            // Update navigation items
+            const navKeys = ['navHome', 'navAbout', 'navAcademy', 'navCoaches', 'navPlayers', 'navMatches', 'navTraining', 'navGallery', 'navContact'];
+            const navTexts = {
+                en: ['Home', 'About', 'Academy', 'Coaches', 'Players', 'Matches', 'Training', 'Gallery', 'Contact'],
+                ru: ['Главная', 'О нас', 'Академия', 'Тренеры', 'Игроки', 'Матчи', 'Тренировки', 'Галерея', 'Контакты']
+            };
+            navKeys.forEach((key, index) => {
+                const element = document.querySelector(`a[data-key="${key}"]`);
+                if (element) {
+                    element.textContent = navTexts[lang][index];
+                }
+            });
+        }
+        
+        // Update player count dynamically
+        function updatePlayerCount() {
+            const countElement = document.getElementById('playerCount');
+            if (countElement) {
+                // You can update this number manually as players join
+                // For now, it will show 0 until you change it
+                countElement.textContent = '0';
+            }
+        }
+        
+        // Call on load
+        updatePlayerCount();
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

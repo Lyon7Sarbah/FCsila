@@ -16,6 +16,27 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 - **API codegen**: Orval (from OpenAPI spec)
 - **Build**: esbuild (CJS bundle)
 
+## Artifacts
+
+### FC SILA Moscow — Football Academy (`artifacts/fc-sila`)
+- **Type**: React + Vite (presentation-first, no backend)
+- **Preview**: `/` (root)
+- **Description**: Modern bilingual (EN/RU) youth football academy website for FC SILA Moscow
+- **Features**:
+  - Full language switcher (English / Russian) with language-specific logos
+  - Sections: Hero, About, Programs (4 age groups), Training Schedule, Coaches, Contact Form, Footer
+  - Saturday: shows "Training" status with no time (as requested)
+  - Black & yellow Dortmund-style color scheme (#000000 / #FDE100)
+  - Animated hero with floating logo, ticker tape, card hover effects
+  - Mobile-responsive with hamburger menu
+  - Contact form with validation and success state
+  - Scroll-aware active navigation highlighting
+
+### API Server (`artifacts/api-server`)
+- **Type**: Express 5 backend
+- **Preview**: `/api`
+- **Description**: Shared backend API (currently serves health check only)
+
 ## Key Commands
 
 - `pnpm run typecheck` — full typecheck across all packages
