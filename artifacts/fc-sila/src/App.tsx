@@ -4,9 +4,12 @@ import { LangProvider } from "@/context/LangContext";
 import Header from "@/components/Header";
 import HeroSection from "@/components/HeroSection";
 import AboutSection from "@/components/AboutSection";
-import ProgramsSection from "@/components/ProgramsSection";
-import ScheduleSection from "@/components/ScheduleSection";
+import AcademySection from "@/components/AcademySection";
 import CoachesSection from "@/components/CoachesSection";
+import PlayersSection from "@/components/PlayersSection";
+import MatchesSection from "@/components/MatchesSection";
+import TrainingSection from "@/components/TrainingSection";
+import GallerySection from "@/components/GallerySection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 
@@ -22,9 +25,12 @@ function App() {
             <main>
               <HeroSection />
               <AboutSection />
-              <ProgramsSection />
-              <ScheduleSection />
+              <AcademySection />
               <CoachesSection />
+              <PlayersSection />
+              <MatchesSection />
+              <TrainingSection />
+              <GallerySection />
               <ContactSection />
             </main>
             <Footer />
