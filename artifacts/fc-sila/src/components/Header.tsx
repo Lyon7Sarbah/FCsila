@@ -91,11 +91,11 @@ export default function Header() {
               alt="FC SILA Logo"
               className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
             />
-            <div className="hidden sm:block">
+            <div className="hidden sm:block text-left">
               <div className="text-sm font-black tracking-widest leading-none" style={{ color: '#FDE100' }}>
                 {lang === 'en' ? 'FC SILA' : 'ФК СИЛА'}
               </div>
-              <div className="text-[10px] text-gray-500 tracking-widest uppercase leading-none mt-0.5">
+              <div className="text-[10px] text-gray-500 tracking-[0.12em] uppercase leading-none mt-0.5">
                 {lang === 'en' ? 'Academy' : 'Академия'}
               </div>
             </div>

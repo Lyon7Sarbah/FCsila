@@ -18,6 +18,8 @@ import TrainingSection from "@/components/TrainingSection";
 import GallerySection from "@/components/GallerySection";
 import ContactSection from "@/components/ContactSection";
 import InstallBanner from "@/components/InstallBanner";
+import TickerBanner from "@/components/TickerBanner";
+import JoinCTA from "@/components/JoinCTA";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +27,7 @@ function HomePage() {
   return (
     <>
       <HeroSection />
+      <TickerBanner />
       <AboutSection />
       <AcademySection />
     </>
@@ -51,6 +54,7 @@ function App() {
                   <Route component={HomePage} />
                 </Switch>
               </main>
+              <JoinCTA />
               <Footer />
               <InstallBanner />
             </div>

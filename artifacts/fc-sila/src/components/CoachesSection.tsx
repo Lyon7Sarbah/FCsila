@@ -1,7 +1,7 @@
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import PageBanner from '@/components/PageBanner';
-import trainingBg from '@/assets/training-bg.png';
+import heroBg from '@/assets/hero-bg.png';
 
 export default function CoachesSection() {
   const { lang } = useLang();
@@ -18,7 +18,7 @@ export default function CoachesSection() {
         <p className="text-center text-gray-500 mb-8 text-sm">{t.coming_soon}</p>
 
         <PageBanner
-          imageSrc={trainingBg}
+          imageSrc={heroBg}
           overlayText={lang === 'en' ? 'Shaping the Next Generation of Footballers' : 'Воспитываем следующее поколение футболистов'}
         />
 
