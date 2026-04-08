@@ -5,7 +5,7 @@ outputs = []
 id = "QRq_ked3ulectad1h_W0M"
 uri = "file://artifacts/fc-sila/src/assets/hero-bg.png"
 type = "image"
-title = "hero football pitch background"
+title = "players in black yellow jerseys from behind"
 
 [[generated]]
 id = "MuLRno5btuWGFAyBAOuiB"
@@ -24,3 +24,9 @@ id = "SlgkvIj4S_jkeRAWFzWEa"
 uri = "file://artifacts/fc-sila/src/assets/academy-bg.png"
 type = "image"
 title = "football boots locker room"
+
+[[generated]]
+id = "ksmLJZAUPw3WoyMfrUN_L"
+uri = "file://artifacts/fc-sila/src/assets/matches-bg.png"
+type = "image"
+title = "football pitch aerial golden hour"

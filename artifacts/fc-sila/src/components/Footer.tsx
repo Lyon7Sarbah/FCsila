@@ -7,7 +7,7 @@ import logoRu from '@assets/sila_logo__1775666431192.png';
 export default function Footer() {
   const { lang } = useLang();
   const t = translations[lang];
-  const [location, navigate] = useLocation();
+  const [, navigate] = useLocation();
 
   const handleNav = (item: string) => {
     if (SCROLL_SECTIONS.includes(item)) {
@@ -35,7 +35,7 @@ export default function Footer() {
                   {lang === 'en' ? 'FC SILA' : 'ФК СИЛА'}
                 </div>
                 <div className="text-xs text-gray-600 uppercase tracking-widest">
-                  {lang === 'en' ? 'Moscow' : 'Москва'}
+                  {lang === 'en' ? 'Academy' : 'Академия'}
                 </div>
               </div>
             </div>
@@ -71,15 +71,31 @@ export default function Footer() {
               <div><a href="mailto:fcsilamoscow@gmail.com" className="hover:text-yellow-400 transition-colors">fcsilamoscow@gmail.com</a></div>
               <div><a href="https://wa.me/79309630699" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition-colors">WhatsApp: +7 930 963 06 99</a></div>
               <div><a href="https://instagram.com/academyfcsila" target="_blank" rel="noreferrer" className="hover:text-yellow-400 transition-colors">@academyfcsila</a></div>
-              <div className="mt-3" style={{ color: '#2a2a2a' }}>
-                OGRN: 1207700105073<br />
-                INN: 9715380269 / KPP: 502701001
-              </div>
             </div>
           </div>
         </div>
 
-        <div className="pt-8 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: '#111' }}>
+        {/* Legal entity block */}
+        <div className="rounded-2xl p-5 border mb-8" style={{ background: '#090909', borderColor: '#1a1a1a' }}>
+          <h4 className="font-black uppercase tracking-widest text-xs mb-4" style={{ color: '#FDE100' }}>
+            📜 {lang === 'en' ? 'Legal Entity' : 'Юридическое лицо'}
+          </h4>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-2">
+            {Object.values(t.about.legal).map((item, i) => {
+              const colonIdx = item.indexOf(': ');
+              const key = item.slice(0, colonIdx);
+              const val = item.slice(colonIdx + 2);
+              return (
+                <div key={i} className="flex flex-col">
+                  <span className="text-[10px] font-bold uppercase tracking-wider" style={{ color: '#FDE100' }}>{key}</span>
+                  <span className="text-xs text-gray-500">{val}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4" style={{ borderColor: '#111' }}>
           <p className="text-xs" style={{ color: '#333' }}>{t.footer.copyright}</p>
           <p className="text-xs" style={{ color: '#222' }}>
             {lang === 'en' ? '"Stronger together. Better every Saturday."' : '«Вместе сильнее. Лучше каждую субботу.»'}

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
+import PageBanner from '@/components/PageBanner';
+import academyBg from '@/assets/academy-bg.png';
 
 export default function ContactSection() {
   const { lang } = useLang();
@@ -25,11 +27,16 @@ export default function ContactSection() {
   return (
     <section id="contact" className="py-24 min-h-screen" style={{ background: '#030303' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight section-title" style={{ color: '#ffffff' }}>
             {t.title}
           </h2>
         </div>
+
+        <PageBanner
+          imageSrc={academyBg}
+          overlayText={lang === 'en' ? 'Join the FC SILA Academy Family' : 'Вступайте в семью Академии ФК Сила'}
+        />
 
         <div className="grid lg:grid-cols-5 gap-10">
           {/* Form */}

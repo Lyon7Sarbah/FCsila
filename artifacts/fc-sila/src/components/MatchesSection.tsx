@@ -1,5 +1,7 @@
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
+import PageBanner from '@/components/PageBanner';
+import matchesBg from '@/assets/matches-bg.png';
 
 export default function MatchesSection() {
   const { lang } = useLang();
@@ -8,11 +10,16 @@ export default function MatchesSection() {
   return (
     <section id="matches" className="py-24 min-h-screen" style={{ background: '#050505' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight section-title" style={{ color: '#ffffff' }}>
             {t.title}
           </h2>
         </div>
+
+        <PageBanner
+          imageSrc={matchesBg}
+          overlayText={lang === 'en' ? 'Fair Play — Every Child Plays Equal Minutes' : 'Честная игра — каждый ребёнок играет поровну'}
+        />
 
         {/* Philosophy */}
         <div className="rounded-2xl p-7 border mb-12" style={{ background: '#0d0d0d', borderColor: '#1a1a1a' }}>

@@ -75,7 +75,7 @@ export default function AcademySection() {
                 <span key={i} className="inline-flex items-center gap-4 px-8 text-black font-black uppercase text-sm tracking-widest">
                   <span>FC SILA</span>
                   <span>⚽</span>
-                  <span>{lang === 'en' ? 'Moscow Football Academy' : 'Футбольная академия Москвы'}</span>
+                  <span>{lang === 'en' ? 'FC SILA Academy' : 'Академия ФК Сила'}</span>
                   <span>⚽</span>
                   <span>{lang === 'en' ? 'Ages 7–15' : 'Возраст 7–15'}</span>
                   <span>⚽</span>

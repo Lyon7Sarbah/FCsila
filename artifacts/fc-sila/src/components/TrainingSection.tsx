@@ -1,5 +1,7 @@
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
+import PageBanner from '@/components/PageBanner';
+import trainingBg from '@/assets/training-bg.png';
 
 export default function TrainingSection() {
   const { lang } = useLang();
@@ -10,11 +12,16 @@ export default function TrainingSection() {
   return (
     <section id="training" className="py-24 min-h-screen" style={{ background: '#0a0a0a' }}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight section-title" style={{ color: '#ffffff' }}>
             {t.title}
           </h2>
         </div>
+
+        <PageBanner
+          imageSrc={trainingBg}
+          overlayText={lang === 'en' ? '2-Hour Saturday Sessions — Every Week' : 'Двухчасовые субботние занятия — каждую неделю'}
+        />
 
         <div className="grid lg:grid-cols-2 gap-12 items-start">
           {/* Left — schedule + gear */}
