@@ -1,7 +1,7 @@
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import PageBanner from '@/components/PageBanner';
-import aboutBg from '@/assets/about-bg.png';
+import gallery1 from '@/assets/gallery-1.png';
 
 const POSITION_COLORS: Record<string, { bg: string; text: string; glow: string; label_en: string; label_ru: string }> = {
   GK: { bg: '#FF6B35', text: '#000', glow: 'rgba(255,107,53,0.3)', label_en: 'Goalkeeper', label_ru: 'Вратарь' },
@@ -28,7 +28,7 @@ export default function PlayersSection() {
         <p className="text-center text-gray-500 mb-8 text-sm">{t.subtitle}</p>
 
         <PageBanner
-          imageSrc={aboutBg}
+          imageSrc={gallery1}
           overlayText={lang === 'en' ? 'Every Player Matters — Equal Time on the Pitch' : 'Каждый игрок важен — равное время на поле'}
         />
 

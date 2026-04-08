@@ -1,13 +1,15 @@
+import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 
 export default function AcademySection() {
   const { lang } = useLang();
   const t = translations[lang].academy;
+  const [, navigate] = useLocation();
 
-  const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const goToContact = () => {
+    navigate('/contact');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   return (
@@ -56,7 +58,7 @@ export default function AcademySection() {
               <div className="flex items-center justify-between">
                 <div className="text-2xl font-black" style={{ color: '#FDE100' }}>{group.price}</div>
                 <button
-                  onClick={() => scrollTo('contact')}
+                  onClick={goToContact}
                   className="px-6 py-3 rounded-full text-sm font-black uppercase tracking-wider transition-all duration-300 hover:brightness-90 hover:scale-[0.98]"
                   style={{ background: '#FDE100', color: '#000' }}
                 >

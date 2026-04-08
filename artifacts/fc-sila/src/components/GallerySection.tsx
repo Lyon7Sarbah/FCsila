@@ -1,7 +1,21 @@
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import PageBanner from '@/components/PageBanner';
-import aboutBg from '@/assets/about-bg.png';
+import gallery1 from '@/assets/gallery-1.png';
+import gallery2 from '@/assets/gallery-2.png';
+import gallery3 from '@/assets/gallery-3.png';
+import gallery4 from '@/assets/gallery-4.png';
+import nikeBoot from '@/assets/nike-boots.png';
+import heroBg from '@/assets/hero-bg.png';
+
+const GALLERY_IMAGES = [
+  { src: gallery1, labelEn: 'Training Session', labelRu: 'Тренировка' },
+  { src: gallery2, labelEn: 'Team Spirit', labelRu: 'Командный дух' },
+  { src: gallery4, labelEn: 'Ball Mastery', labelRu: 'Владение мячом' },
+  { src: gallery3, labelEn: 'Kit & Equipment', labelRu: 'Форма и снаряжение' },
+  { src: nikeBoot, labelEn: 'Academy Boots', labelRu: 'Бутсы академии' },
+  { src: heroBg, labelEn: 'Our Team', labelRu: 'Наша команда' },
+];
 
 export default function GallerySection() {
   const { lang } = useLang();
@@ -17,25 +31,29 @@ export default function GallerySection() {
         </div>
 
         <PageBanner
-          imageSrc={aboutBg}
-          overlayText={lang === 'en' ? 'Our Story in Pictures — Coming Soon' : 'Наша история в фотографиях — скоро'}
+          imageSrc={gallery2}
+          overlayText={lang === 'en' ? 'Our Story in Pictures' : 'Наша история в фотографиях'}
         />
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {t.items.map((item, i) => (
+          {GALLERY_IMAGES.map((img, i) => (
             <div
               key={i}
-              className="card-lift rounded-2xl border flex flex-col items-center justify-center text-center p-12 gap-4"
-              style={{
-                background: '#0d0d0d',
-                borderColor: '#1a1a1a',
-                aspectRatio: '4/3',
-              }}
+              className="card-lift rounded-2xl border overflow-hidden relative group"
+              style={{ borderColor: '#1a1a1a', aspectRatio: '4/3' }}
             >
-              <span className="text-5xl">{item.icon}</span>
-              <div>
-                <div className="font-bold text-white text-sm mb-1">{item.title}</div>
-                <div className="text-xs text-gray-600 italic">{item.sub}</div>
+              <img
+                src={img.src}
+                alt={lang === 'en' ? img.labelEn : img.labelRu}
+                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+              />
+              <div
+                className="absolute inset-0 flex items-end p-4"
+                style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 60%)' }}
+              >
+                <span className="text-sm font-black uppercase tracking-wider" style={{ color: '#FDE100' }}>
+                  {lang === 'en' ? img.labelEn : img.labelRu}
+                </span>
               </div>
             </div>
           ))}

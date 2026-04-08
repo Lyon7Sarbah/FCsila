@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import PageBanner from '@/components/PageBanner';
-import academyBg from '@/assets/academy-bg.png';
+import gallery2 from '@/assets/gallery-2.png';
+
+const API_BASE = '/api';
 
 export default function ContactSection() {
   const { lang } = useLang();
@@ -13,14 +15,31 @@ export default function ContactSection() {
     child_age: '', group: '', experience: '', medical: '',
   });
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
+    setSending(true);
+    setError('');
+    try {
+      const res = await fetch(`${API_BASE}/contact`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...form, lang }),
+      });
+      if (!res.ok) throw new Error('Send failed');
+      setSubmitted(true);
+    } catch {
+      setError(lang === 'en'
+        ? 'Could not send. Please email us directly at fcsilamoscow@gmail.com'
+        : 'Ошибка отправки. Напишите нам напрямую: fcsilamoscow@gmail.com');
+    } finally {
+      setSending(false);
+    }
   };
 
   const inputBase: React.CSSProperties = { background: '#111', border: '1px solid #222', color: '#fff', outline: 'none' };
-
   const onFocus = (e: React.FocusEvent<any>) => { e.target.style.borderColor = '#FDE100'; };
   const onBlur = (e: React.FocusEvent<any>) => { e.target.style.borderColor = '#222'; };
 
@@ -34,7 +53,7 @@ export default function ContactSection() {
         </div>
 
         <PageBanner
-          imageSrc={academyBg}
+          imageSrc={gallery2}
           overlayText={lang === 'en' ? 'Join the FC SILA Academy Family' : 'Вступайте в семью Академии ФК Сила'}
         />
 
@@ -45,8 +64,16 @@ export default function ContactSection() {
               <h3 className="font-black text-xl text-white mb-6">{t.form_title}</h3>
               {submitted ? (
                 <div className="flex flex-col items-center justify-center py-14 text-center gap-4">
-                  <div className="text-5xl">✅</div>
+                  <div className="text-6xl">✅</div>
                   <div className="text-xl font-black text-white">{t.form.success}</div>
+                  <p className="text-sm text-gray-400">{lang === 'en' ? 'We will contact you within 24 hours.' : 'Мы свяжемся с вами в течение 24 часов.'}</p>
+                  <button
+                    onClick={() => { setSubmitted(false); setForm({ parent_name: '', phone: '', email: '', child_name: '', child_age: '', group: '', experience: '', medical: '' }); }}
+                    className="mt-2 px-6 py-2 rounded-full text-xs font-black uppercase tracking-wider border"
+                    style={{ borderColor: '#FDE100', color: '#FDE100' }}
+                  >
+                    {lang === 'en' ? 'Submit Another' : 'Отправить ещё'}
+                  </button>
                 </div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
@@ -124,10 +151,16 @@ export default function ContactSection() {
                       style={inputBase} />
                   </div>
 
-                  <button type="submit"
-                    className="w-full py-4 rounded-full font-black uppercase tracking-wider text-sm hover:brightness-90 hover:scale-[0.99] transition-all"
-                    style={{ background: '#FDE100', color: '#000' }}>
-                    {t.form.submit} →
+                  {error && (
+                    <div className="rounded-xl px-4 py-3 text-sm" style={{ background: '#1a0000', border: '1px solid #ff4444', color: '#ff6666' }}>
+                      {error}
+                    </div>
+                  )}
+
+                  <button type="submit" disabled={sending}
+                    className="w-full py-4 rounded-full font-black uppercase tracking-wider text-sm transition-all"
+                    style={{ background: sending ? '#888' : '#FDE100', color: '#000', cursor: sending ? 'wait' : 'pointer' }}>
+                    {sending ? (lang === 'en' ? 'Sending…' : 'Отправка…') : `${t.form.submit} →`}
                   </button>
                   <p className="text-xs text-center" style={{ color: '#444' }}>{t.trial_note}</p>
                 </form>
@@ -144,7 +177,6 @@ export default function ContactSection() {
                   { icon: '📍', label: t.address },
                   { icon: '📞', label: t.phone },
                   { icon: '✉️', label: t.email, href: `mailto:${t.email}` },
-                  { icon: '🌐', label: t.website, href: `https://${t.website}` },
                   { icon: '💬', label: t.telegram },
                   { icon: '📱', label: t.whatsapp, href: `https://wa.me/${t.whatsapp.replace(/\D/g, '')}` },
                   { icon: '📷', label: t.instagram, href: `https://instagram.com/${t.instagram.replace('@', '')}` },
