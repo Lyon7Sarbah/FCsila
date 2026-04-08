@@ -1,0 +1,82 @@
+<!-- Install Banner - Works on ALL phones (Android + iPhone) -->
+<div id="installBanner" style="position: fixed; bottom: 20px; left: 20px; right: 20px; background: #FDE100; color: black; border-radius: 16px; padding: 16px 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; z-index: 1001; box-shadow: 0 4px 20px rgba(0,0,0,0.3); transform: translateY(150%); transition: transform 0.4s ease;">
+    <p style="margin: 0; font-weight: 600; flex: 1;" id="installMessage">📱 Install FC SILA as an app on your phone!</p>
+    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+        <button id="installAndroidBtn" style="background: black; color: #FDE100; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer; display: none;">📲 Install App</button>
+        <button id="showIphoneInstructions" style="background: black; color: #FDE100; border: none; padding: 8px 20px; border-radius: 40px; font-weight: 700; cursor: pointer;">🍎 iPhone Guide</button>
+        <button id="closeBanner" style="background: transparent; border: none; font-size: 1.5rem; cursor: pointer; color: black; padding: 0 5px;">✕</button>
+    </div>
+</div>
+
+<!-- iPhone Instructions Modal -->
+<div id="iphoneModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; justify-content: center; align-items: center;">
+    <div style="background: black; border-radius: 24px; padding: 25px; max-width: 320px; text-align: center; border: 2px solid #FDE100; position: relative;">
+        <span id="closeModal" style="position: absolute; top: 10px; right: 15px; font-size: 1.5rem; cursor: pointer; color: #FDE100;">&times;</span>
+        <h3 style="color: #FDE100; margin-bottom: 15px;">📱 Install on iPhone</h3>
+        <div style="text-align: left; margin: 20px 0;">
+            <li style="margin: 10px 0;"><span style="display: inline-block; background: #FDE100; color: black; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; margin-right: 10px;">1</span> Tap the <strong>Share</strong> button <span style="font-size: 1.2rem;">⎔</span></li>
+            <li style="margin: 10px 0;"><span style="display: inline-block; background: #FDE100; color: black; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; margin-right: 10px;">2</span> Scroll down and tap <strong>"Add to Home Screen"</strong></li>
+            <li style="margin: 10px 0;"><span style="display: inline-block; background: #FDE100; color: black; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-weight: bold; margin-right: 10px;">3</span> Tap <strong>"Add"</strong> in the top right</li>
+        </div>
+        <p style="color: #FDE100; font-size: 0.9rem;">✨ FC SILA will appear on your home screen!</p>
+    </div>
+</div>
+
+<script>
+    // Show banner after 2 seconds
+    setTimeout(() => {
+        document.getElementById('installBanner').style.transform = 'translateY(0)';
+    }, 2000);
+    
+    // Close banner
+    document.getElementById('closeBanner').onclick = () => {
+        document.getElementById('installBanner').style.transform = 'translateY(150%)';
+    };
+    
+    // Show iPhone instructions modal
+    document.getElementById('showIphoneInstructions').onclick = () => {
+        document.getElementById('iphoneModal').style.display = 'flex';
+    };
+    
+    // Close modal
+    document.getElementById('closeModal').onclick = () => {
+        document.getElementById('iphoneModal').style.display = 'none';
+    };
+    
+    // Close modal when clicking outside
+    document.getElementById('iphoneModal').onclick = (e) => {
+        if (e.target === document.getElementById('iphoneModal')) {
+            document.getElementById('iphoneModal').style.display = 'none';
+        }
+    };
+    
+    // Android automatic install prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installAndroidBtn').style.display = 'block';
+        
+        document.getElementById('installAndroidBtn').onclick = () => {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((result) => {
+                if (result.outcome === 'accepted') {
+                    console.log('User installed app');
+                }
+                deferredPrompt = null;
+                document.getElementById('installAndroidBtn').style.display = 'none';
+                document.getElementById('installBanner').style.transform = 'translateY(150%)';
+            });
+        };
+    });
+    
+    // Detect if user is on iPhone and show different message
+    const isIPhone = /iPhone/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+    
+    if (isIPhone) {
+        document.getElementById('installMessage').innerHTML = '📱 Add FC SILA to your iPhone home screen!';
+    } else if (isAndroid) {
+        document.getElementById('installMessage').innerHTML = '📱 Install FC SILA as an app on your Android!';
+    }
+</script>

@@ -96,7 +96,7 @@ export default function Header() {
                 {lang === 'en' ? 'FC SILA' : 'ФК СИЛА'}
               </div>
               <div className="text-[10px] text-gray-500 tracking-widest uppercase leading-none mt-0.5">
-                {lang === 'en' ? 'Moscow' : 'Москва'}
+                {lang === 'en' ? 'Academy' : 'Академия'}
               </div>
             </div>
           </button>

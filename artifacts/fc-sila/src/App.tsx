@@ -17,6 +17,7 @@ import MatchesSection from "@/components/MatchesSection";
 import TrainingSection from "@/components/TrainingSection";
 import GallerySection from "@/components/GallerySection";
 import ContactSection from "@/components/ContactSection";
+import InstallBanner from "@/components/InstallBanner";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ function App() {
                 </Switch>
               </main>
               <Footer />
+              <InstallBanner />
             </div>
           </Router>
         </LangProvider>

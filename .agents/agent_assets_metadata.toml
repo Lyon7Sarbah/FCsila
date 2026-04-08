@@ -1,0 +1,26 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "QRq_ked3ulectad1h_W0M"
+uri = "file://artifacts/fc-sila/src/assets/hero-bg.png"
+type = "image"
+title = "hero football pitch background"
+
+[[generated]]
+id = "MuLRno5btuWGFAyBAOuiB"
+uri = "file://artifacts/fc-sila/src/assets/about-bg.png"
+type = "image"
+title = "football on grass about section"
+
+[[generated]]
+id = "kX4rjdiWsd-9JnAfo0_nN"
+uri = "file://artifacts/fc-sila/src/assets/training-bg.png"
+type = "image"
+title = "training equipment turf"
+
+[[generated]]
+id = "SlgkvIj4S_jkeRAWFzWEa"
+uri = "file://artifacts/fc-sila/src/assets/academy-bg.png"
+type = "image"
+title = "football boots locker room"
