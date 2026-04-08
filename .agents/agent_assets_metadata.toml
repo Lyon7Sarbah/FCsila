@@ -5,19 +5,19 @@ outputs = []
 id = "QRq_ked3ulectad1h_W0M"
 uri = "file://artifacts/fc-sila/src/assets/hero-bg.png"
 type = "image"
-title = "players in black yellow jerseys from behind"
+title = "youth soccer kids black yellow jerseys no names"
 
 [[generated]]
 id = "MuLRno5btuWGFAyBAOuiB"
 uri = "file://artifacts/fc-sila/src/assets/about-bg.png"
 type = "image"
-title = "football on grass about section"
+title = "youth soccer free kick golden hour"
 
 [[generated]]
 id = "kX4rjdiWsd-9JnAfo0_nN"
 uri = "file://artifacts/fc-sila/src/assets/training-bg.png"
 type = "image"
-title = "training equipment turf"
+title = "soccer training cones equipment no people"
 
 [[generated]]
 id = "SlgkvIj4S_jkeRAWFzWEa"
@@ -30,3 +30,33 @@ id = "ksmLJZAUPw3WoyMfrUN_L"
 uri = "file://artifacts/fc-sila/src/assets/matches-bg.png"
 type = "image"
 title = "football pitch aerial golden hour"
+
+[[generated]]
+id = "H5eUX0MDqcc1dgDY-idm3"
+uri = "file://artifacts/fc-sila/src/assets/gallery-1.png"
+type = "image"
+title = "kids soccer action dribbling"
+
+[[generated]]
+id = "OuZigbJKqchQgyu4Fj_Yk"
+uri = "file://artifacts/fc-sila/src/assets/gallery-2.png"
+type = "image"
+title = "youth soccer team celebration from behind"
+
+[[generated]]
+id = "hGpjzMe79qssLqgFXTkOM"
+uri = "file://artifacts/fc-sila/src/assets/gallery-3.png"
+type = "image"
+title = "Nike soccer cleat boot on grass"
+
+[[generated]]
+id = "4U1a2sv3U2BtrTn-AkHtn"
+uri = "file://artifacts/fc-sila/src/assets/gallery-4.png"
+type = "image"
+title = "youth soccer player ball control"
+
+[[generated]]
+id = "HUHqcdll7RHq28h4O_htN"
+uri = "file://artifacts/fc-sila/src/assets/nike-boots.png"
+type = "image"
+title = "Nike Mercurial boots yellow black"
