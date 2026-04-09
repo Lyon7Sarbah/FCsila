@@ -2,7 +2,7 @@ import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations, NAV_ITEMS, PAGE_ROUTES, SCROLL_SECTIONS } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
-import logoRu from '@assets/sila_logo__1775666431192.png';
+import logoRu from '@/assets/sila_logo_transparent.png';
 
 export default function Footer() {
   const { lang } = useLang();

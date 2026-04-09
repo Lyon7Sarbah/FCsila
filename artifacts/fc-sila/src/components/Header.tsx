@@ -3,7 +3,7 @@ import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations, NAV_ITEMS, PAGE_ROUTES, SCROLL_SECTIONS } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
-import logoRu from '@assets/sila_logo__1775666431192.png';
+import logoRu from '@/assets/sila_logo_transparent.png';
 
 export default function Header() {
   const { lang, setLang } = useLang();
@@ -91,7 +91,7 @@ export default function Header() {
               alt="FC SILA Logo"
               className="w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               style={{
-                height: lang === 'ru' ? '3.2rem' : '2.25rem',
+                height: '2.25rem',
               }}
             />
             <div className="hidden sm:block text-left">

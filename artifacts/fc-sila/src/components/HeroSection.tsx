@@ -2,7 +2,7 @@ import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
-import logoRu from '@assets/sila_logo__1775666431192.png';
+import logoRu from '@/assets/sila_logo_transparent.png';
 import heroBg from '@/assets/hero-new.png';
 import heroVideo from '@/assets/hero-video.mp4';
 
@@ -81,26 +81,12 @@ export default function HeroSection() {
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center py-12">
         {/* Logo */}
         <div className="mb-6 animate-float">
-          {lang === 'en' ? (
-            <img
-              src={logoEn}
-              alt="FC SILA"
-              className="h-32 md:h-52 w-auto object-contain mx-auto"
-              style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
-            />
-          ) : (
-            <img
-              src={logoRu}
-              alt="ФК Сила"
-              className="w-auto object-contain mx-auto"
-              style={{
-                height: 'clamp(9rem, 18vw, 15rem)',
-                transform: 'scale(1.15)',
-                mixBlendMode: 'screen',
-                filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))',
-              }}
-            />
-          )}
+          <img
+            src={lang === 'en' ? logoEn : logoRu}
+            alt={lang === 'en' ? 'FC SILA' : 'ФК Сила'}
+            className="h-32 md:h-52 w-auto object-contain mx-auto"
+            style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
+          />
         </div>
 
         <h1
