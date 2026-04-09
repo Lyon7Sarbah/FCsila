@@ -81,12 +81,26 @@ export default function HeroSection() {
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center py-12">
         {/* Logo */}
         <div className="mb-6 animate-float">
-          <img
-            src={lang === 'en' ? logoEn : logoRu}
-            alt="FC SILA"
-            className="h-32 md:h-52 w-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
-          />
+          {lang === 'en' ? (
+            <img
+              src={logoEn}
+              alt="FC SILA"
+              className="h-32 md:h-52 w-auto object-contain mx-auto"
+              style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
+            />
+          ) : (
+            <img
+              src={logoRu}
+              alt="ФК Сила"
+              className="w-auto object-contain mx-auto"
+              style={{
+                height: 'clamp(9rem, 18vw, 15rem)',
+                transform: 'scale(1.15)',
+                mixBlendMode: 'screen',
+                filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))',
+              }}
+            />
+          )}
         </div>
 
         <h1

@@ -89,7 +89,12 @@ export default function Header() {
             <img
               src={lang === 'en' ? logoEn : logoRu}
               alt="FC SILA Logo"
-              className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              className="w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+              style={{
+                height: '2.25rem',
+                transform: lang === 'ru' ? 'scale(1.3)' : undefined,
+                transformOrigin: 'left center',
+              }}
             />
             <div className="hidden sm:block text-left">
               <div className="text-sm font-black tracking-widest leading-none" style={{ color: '#FDE100' }}>
