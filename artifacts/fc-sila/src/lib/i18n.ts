@@ -31,7 +31,7 @@ export const translations = {
       story2: 'In our early years, we were known for our vibrant, international spirit. Players from across Russia, Africa, Europe, and beyond came together on the Moscow pitches every week. We played dozens of friendly matches, building bonds that went far beyond football. We proved that despite differences in language, culture, and background — on the pitch, we were one. That togetherness became our identity.',
       story3: 'After a period away, FC SILA is back — and this time, we are focused on the next generation. We are ready to give the young players of this city the same sense of belonging, discipline, and love for the game that defined us from the beginning.',
       history_title: 'From Friendlies to Academy',
-      history_text: 'FC SILA has been a registered football club in Moscow since March 6, 2020 (OGRN: 1207700105073). Our roots go deeper — we have been playing competitive friendly matches across Moscow for years, forging connections with clubs and communities across the city and beyond. Now we take that rich history into the future, channelling our experience into a dedicated youth academy that reflects everything we stand for: strength, unity, and the beautiful game.',
+      history_text: 'FC SILA has been a registered football club in Moscow since March 6, 2020. Our roots go deeper — we have been playing competitive friendly matches across Moscow for years, forging connections with clubs and communities across the city and beyond. Now we take that rich history into the future, channelling our experience into a dedicated youth academy that reflects everything we stand for: strength, unity, and the beautiful game.',
       values_title: 'Our Values',
       values: [
         { label: 'Technique First', desc: 'Every session emphasizes ball mastery' },
@@ -265,7 +265,7 @@ export const translations = {
       story2: 'В первые годы мы были известны своим ярким международным духом. На московских полях каждую неделю встречались игроки из России, Африки, Европы и многих других стран. Мы провели десятки товарищеских матчей, выстраивая связи, которые выходили далеко за рамки футбола. Несмотря на различия в языке, культуре и происхождении — на поле мы были едины. Это единство стало нашей сущностью.',
       story3: 'После перерыва ФК «Сила» возвращается — и на этот раз мы сосредоточены на новом поколении. Мы готовы дать молодым игрокам этого города то же чувство единства, дисциплины и любви к игре, которое определяло нас с самого начала.',
       history_title: 'От товарищеских матчей к академии',
-      history_text: 'ФК «Сила» является зарегистрированным футбольным клубом в Москве с 6 марта 2020 года (ОГРН: 1207700105073). Наши корни уходят глубже — мы годами проводили товарищеские матчи по всей Москве, выстраивая связи с клубами и сообществами по всему городу и за его пределами. Теперь мы несём этот богатый опыт в будущее — в юношескую академию, которая воплощает всё, что нам дорого: силу, единство и красивый футбол.',
+      history_text: 'ФК «Сила» является зарегистрированным футбольным клубом в Москве с 6 марта 2020 года. Наши корни уходят глубже — мы годами проводили товарищеские матчи по всей Москве, выстраивая связи с клубами и сообществами по всему городу и за его пределами. Теперь мы несём этот богатый опыт в будущее — в юношескую академию, которая воплощает всё, что нам дорого: силу, единство и красивый футбол.',
       values_title: 'Наши ценности',
       values: [
         { label: 'Техника прежде всего', desc: 'Каждое занятие — работа с мячом' },

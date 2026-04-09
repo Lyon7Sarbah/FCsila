@@ -234,20 +234,26 @@ export default function ContactSection() {
                     </div>
 
                     <div className="grid sm:grid-cols-2 gap-4">
-                      {[
-                        { key: 'child_name', label: t.form.child_name, type: 'text', ph: t.form.child_name },
-                        { key: 'child_age', label: t.form.child_age, type: 'number', ph: '7–15' },
-                      ].map(({ key, label, type, ph }) => (
-                        <div key={key}>
-                          <label className="block text-[11px] font-black uppercase tracking-wider mb-1.5" style={{ color: '#FDE100' }}>{label} *</label>
-                          <input type={type} required value={(form as any)[key]}
-                            onChange={(e) => setForm({ ...form, [key]: e.target.value })}
-                            onFocus={onFocus} onBlur={onBlur}
-                            className="w-full px-4 py-3 rounded-xl text-sm transition-all"
-                            style={inputBase} placeholder={ph}
-                            {...(type === 'number' ? { min: 7, max: 15 } : {})} />
-                        </div>
-                      ))}
+                      <div>
+                        <label className="block text-[11px] font-black uppercase tracking-wider mb-1.5" style={{ color: '#FDE100' }}>{t.form.child_name} *</label>
+                        <input type="text" required value={form.child_name}
+                          onChange={(e) => setForm({ ...form, child_name: e.target.value })}
+                          onFocus={onFocus} onBlur={onBlur}
+                          className="w-full px-4 py-3 rounded-xl text-sm transition-all"
+                          style={inputBase} placeholder={t.form.child_name} />
+                      </div>
+                      <div>
+                        <label className="block text-[11px] font-black uppercase tracking-wider mb-1.5" style={{ color: '#FDE100' }}>{t.form.child_age} *</label>
+                        <select required value={form.child_age}
+                          onChange={(e) => setForm({ ...form, child_age: e.target.value })}
+                          onFocus={onFocus} onBlur={onBlur}
+                          className="w-full px-4 py-3 rounded-xl text-sm transition-all cursor-pointer"
+                          style={inputBase}>
+                          <option value="">—</option>
+                          <option value="7-10">7–10</option>
+                          <option value="11-15">11–15</option>
+                        </select>
+                      </div>
                     </div>
 
                     <div className="grid sm:grid-cols-2 gap-4">
