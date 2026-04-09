@@ -202,6 +202,8 @@ export const translations = {
       telegram: 'To be announced',
       whatsapp: '+7 930 963 06 99',
       instagram: '@academyfcsila',
+      facebook: '@academyfcsila',
+      vk: '@academyfcsila',
       legal_address: '140009, Moscow region, Lyubertsy, Motyakovo village, SNTSN Yelochka, 38a, room 1',
       form_title: 'Request a Trial Session',
       form: {
@@ -434,6 +436,8 @@ export const translations = {
       telegram: 'Скоро',
       whatsapp: '+7 930 963 06 99',
       instagram: '@academyfcsila',
+      facebook: '@academyfcsila',
+      vk: '@academyfcsila',
       legal_address: '140009, Московская обл., г. Люберцы, д. Мотяково, СНТСН «Ёлочка», д. 38а, пом. 1',
       form_title: 'Записаться на пробное занятие',
       form: {
