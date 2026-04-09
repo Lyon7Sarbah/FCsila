@@ -3,7 +3,8 @@ import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
 import logoRu from '@assets/sila_logo__1775666431192.png';
-import heroBg from '@/assets/hero-bg.png';
+import heroBg from '@/assets/hero-new.png';
+import heroVideo from '@/assets/hero-video.mp4';
 
 export default function HeroSection() {
   const { lang } = useLang();
@@ -16,47 +17,97 @@ export default function HeroSection() {
       className="relative flex flex-col overflow-hidden"
       style={{ minHeight: 'calc(100vh - 64px)' }}
     >
-      {/* Background image — faded */}
+      {/* Video background — with image fallback for all devices */}
       <div className="absolute inset-0">
-        <img
-          src={heroBg}
-          alt=""
-          className="w-full h-full object-cover"
-          style={{ opacity: 0.35 }}
+        {/* Fallback image — shown when video hasn't loaded yet */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            backgroundImage: `url(${heroBg})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center center',
+            backgroundRepeat: 'no-repeat',
+          }}
         />
-        <div className="absolute inset-0" style={{
-          background: 'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.85) 75%, #000 100%)'
-        }} />
+        {/* Video — autoplay muted loop works on iOS/Android with playsInline */}
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          disablePictureInPicture
+          style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+
+        {/* Opacity overlay on the video/image */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'rgba(0,0,0,0.45)',
+          }}
+        />
+        {/* Gradient fade to black at bottom */}
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, transparent 30%, rgba(0,0,0,0.7) 70%, #000000 100%)',
+          }}
+        />
       </div>
 
-      {/* Grid pattern overlay */}
-      <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
-        style={{ backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 60px, #FDE100 60px, #FDE100 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, #FDE100 60px, #FDE100 61px)` }}
+      {/* Subtle grid pattern */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage:
+            'repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(253,225,0,0.025) 60px, rgba(253,225,0,0.025) 61px), repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(253,225,0,0.025) 60px, rgba(253,225,0,0.025) 61px)',
+        }}
       />
 
       {/* Main content */}
       <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4 sm:px-6 text-center py-12">
         {/* Logo */}
-        <div className="mb-8 animate-float">
+        <div className="mb-6 animate-float">
           <img
             src={lang === 'en' ? logoEn : logoRu}
             alt="FC SILA"
-            className="h-36 md:h-52 w-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.35))' }}
+            className="h-32 md:h-52 w-auto object-contain mx-auto"
+            style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
           />
         </div>
 
         <h1
           className="font-black uppercase leading-none mb-3 max-w-4xl"
-          style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)', letterSpacing: '-0.02em', color: '#ffffff', textShadow: '0 2px 20px rgba(0,0,0,0.8)' }}
+          style={{
+            fontSize: 'clamp(2rem, 6.5vw, 5rem)',
+            letterSpacing: '-0.02em',
+            color: '#ffffff',
+            textShadow: '0 2px 30px rgba(0,0,0,0.95)',
+          }}
         >
           {t.title}
         </h1>
 
-        <p className="text-lg md:text-xl font-semibold mb-2" style={{ color: '#FDE100', textShadow: '0 1px 10px rgba(0,0,0,0.8)' }}>
+        <p
+          className="text-lg md:text-xl font-semibold mb-2"
+          style={{ color: '#FDE100', textShadow: '0 1px 15px rgba(0,0,0,0.9)' }}
+        >
           {t.subtitle}
         </p>
-        <p className="text-base md:text-lg mb-8" style={{ color: '#aaaaaa' }}>
+        <p className="text-base md:text-lg mb-8" style={{ color: '#aaaaaa', textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}>
           {t.tagline}
         </p>
 
@@ -66,7 +117,13 @@ export default function HeroSection() {
             <span
               key={badge}
               className="px-4 py-2 rounded-full text-sm font-semibold"
-              style={{ background: 'rgba(0,0,0,0.5)', color: '#ccc', border: '1px solid rgba(255,255,255,0.15)', backdropFilter: 'blur(4px)' }}
+              style={{
+                background: 'rgba(0,0,0,0.65)',
+                color: '#ccc',
+                border: '1px solid rgba(255,255,255,0.2)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+              }}
             >
               ✓ {badge}
             </span>
@@ -75,17 +132,32 @@ export default function HeroSection() {
 
         {/* CTA */}
         <button
-          onClick={() => { navigate('/contact'); window.scrollTo({ top: 0, behavior: 'instant' }); }}
+          onClick={() => {
+            navigate('/contact');
+            window.scrollTo({ top: 0, behavior: 'instant' as ScrollBehavior });
+          }}
           className="btn-pulse px-8 py-4 rounded-full text-sm font-black uppercase tracking-wider transition-all duration-300 hover:scale-105 hover:brightness-110 mb-3"
-          style={{ background: '#FDE100', color: '#000', boxShadow: '0 4px 30px rgba(253,225,0,0.4)' }}
+          style={{
+            background: '#FDE100',
+            color: '#000',
+            boxShadow: '0 4px 30px rgba(253,225,0,0.5)',
+          }}
         >
           {t.cta} →
         </button>
-        <p className="text-xs" style={{ color: '#555' }}>{t.trial_note}</p>
+        <p className="text-xs" style={{ color: '#666', textShadow: '0 1px 4px rgba(0,0,0,0.8)' }}>{t.trial_note}</p>
       </div>
 
       {/* Stats strip */}
-      <div className="relative z-10 border-t" style={{ borderColor: 'rgba(253,225,0,0.15)', background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(10px)' }}>
+      <div
+        className="relative z-10 border-t"
+        style={{
+          borderColor: 'rgba(253,225,0,0.2)',
+          background: 'rgba(0,0,0,0.88)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+        }}
+      >
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {[
@@ -94,8 +166,14 @@ export default function HeroSection() {
               { num: '2', label: lang === 'en' ? 'Age Groups' : 'Группы' },
               { num: '2020', label: lang === 'en' ? 'Founded' : 'Основан' },
             ].map(({ num, label }) => (
-              <div key={label} className="py-5 px-4 text-center border-r last:border-r-0" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
-                <div className="text-2xl md:text-3xl font-black" style={{ color: '#FDE100' }}>{num}</div>
+              <div
+                key={label}
+                className="py-5 px-4 text-center border-r last:border-r-0"
+                style={{ borderColor: 'rgba(255,255,255,0.06)' }}
+              >
+                <div className="text-2xl md:text-3xl font-black" style={{ color: '#FDE100' }}>
+                  {num}
+                </div>
                 <div className="text-xs text-gray-500 mt-1 uppercase tracking-wider">{label}</div>
               </div>
             ))}
