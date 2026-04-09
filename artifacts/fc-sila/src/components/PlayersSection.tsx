@@ -68,7 +68,7 @@ export default function PlayersSection() {
             </div>
             <div className="flex-1 h-px" style={{ background: '#1a1a1a' }} />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
             {PLAYER_SLOTS.map((slot) => (
               <PlayerCard key={slot.id} lang={lang} pos={slot.pos} />
             ))}
@@ -83,7 +83,7 @@ export default function PlayersSection() {
             </div>
             <div className="flex-1 h-px" style={{ background: '#1a1a1a' }} />
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-4">
             {PLAYER_SLOTS.map((slot) => (
               <PlayerCard key={slot.id + 16} lang={lang} pos={slot.pos} />
             ))}
@@ -126,23 +126,23 @@ function PlayerCard({ lang, pos }: { lang: 'en' | 'ru'; pos: string }) {
       <div
         className="w-full flex items-center justify-center relative"
         style={{
-          height: '80px',
+          height: '140px',
           background: `linear-gradient(135deg, #0f0f0f, #151515)`,
-          borderBottom: `2px solid ${style.bg}22`,
+          borderBottom: `2px solid ${style.bg}44`,
         }}
       >
-        <div className="text-3xl opacity-20">👤</div>
+        <div className="text-5xl opacity-20">👤</div>
         {/* Position badge */}
         <div
-          className="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded text-[9px] font-black"
-          style={{ background: style.bg, color: style.text, boxShadow: `0 0 6px ${style.glow}` }}
+          className="absolute bottom-2 left-2 px-2 py-1 rounded text-[11px] font-black"
+          style={{ background: style.bg, color: style.text, boxShadow: `0 0 8px ${style.glow}` }}
         >
           {pos}
         </div>
       </div>
       {/* Name area */}
-      <div className="w-full px-2 py-2 text-center">
-        <div className="text-[9px] text-gray-600 uppercase tracking-wider">
+      <div className="w-full px-3 py-3 text-center">
+        <div className="text-[11px] text-gray-500 uppercase tracking-wider font-semibold">
           {lang === 'en' ? 'Available' : 'Вакансия'}
         </div>
       </div>

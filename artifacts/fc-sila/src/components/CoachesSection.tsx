@@ -58,17 +58,17 @@ export default function CoachesSection() {
                 ) : (
                   <div className="flex flex-col items-center gap-3 text-center px-4">
                     <div
-                      className="w-24 h-24 rounded-full flex items-center justify-center text-4xl border-3"
+                      className="w-24 h-24 rounded-full flex items-center justify-center text-4xl"
                       style={{
                         background: '#1a1500',
                         border: '3px solid #FDE100',
                         boxShadow: '0 0 24px rgba(253,225,0,0.2)',
                       }}
                     >
-                      👨‍🏫
+                      👨‍💼
                     </div>
                     <span className="text-xs uppercase tracking-widest font-bold" style={{ color: '#FDE100' }}>
-                      {lang === 'en' ? 'Head Coach' : 'Главный тренер'}
+                      {coach.role}
                     </span>
                   </div>
                 )}
