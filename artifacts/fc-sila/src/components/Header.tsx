@@ -91,9 +91,7 @@ export default function Header() {
               alt="FC SILA Logo"
               className="w-auto object-contain transition-transform duration-300 group-hover:scale-105"
               style={{
-                height: '2.25rem',
-                transform: lang === 'ru' ? 'scale(1.3)' : undefined,
-                transformOrigin: 'left center',
+                height: lang === 'ru' ? '3.2rem' : '2.25rem',
               }}
             />
             <div className="hidden sm:block text-left">
