@@ -21,7 +21,7 @@ export default function InstallBanner() {
     setIsIPhone(iphone);
     setIsAndroid(android);
 
-    const timer = setTimeout(() => setVisible(true), 3000);
+    const timer = setTimeout(() => setVisible(true), 6000);
 
     const handler = (e: Event) => {
       e.preventDefault();
@@ -39,112 +39,105 @@ export default function InstallBanner() {
     if (!deferredPrompt) return;
     await deferredPrompt.prompt();
     const { outcome } = await deferredPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setVisible(false);
-    }
+    if (outcome === 'accepted') setVisible(false);
     setDeferredPrompt(null);
   };
 
   if (!visible) return null;
 
-  const getMessage = () => {
-    if (lang === 'ru') {
-      if (isIPhone) return '📱 Добавь FC SILA Academy на экран iPhone!';
-      if (isAndroid) return '📱 Установи FC SILA Academy на Android!';
-      return '📱 Установи FC SILA Academy как приложение!';
-    }
-    if (isIPhone) return '📱 Add FC SILA Academy to your iPhone home screen!';
-    if (isAndroid) return '📱 Install FC SILA Academy on your Android!';
-    return '📱 Install FC SILA Academy as an app on your phone!';
-  };
-
   return (
     <>
-      {/* Install banner */}
+      {/* Compact install chip */}
       <div
-        className="fixed bottom-5 left-4 right-4 z-50 rounded-2xl px-5 py-4 flex items-center justify-between flex-wrap gap-3 animate-slide-up"
+        className="fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full pl-3 pr-1.5 py-1.5 animate-slide-up"
         style={{
-          background: '#FDE100',
-          boxShadow: '0 8px 32px rgba(0,0,0,0.4)',
-          maxWidth: '600px',
-          margin: '0 auto',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          bottom: '20px',
+          background: 'rgba(10,10,10,0.92)',
+          border: '1px solid rgba(253,225,0,0.3)',
+          backdropFilter: 'blur(12px)',
+          WebkitBackdropFilter: 'blur(12px)',
+          boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+          maxWidth: '260px',
         }}
       >
-        <p className="font-semibold text-black text-sm flex-1">{getMessage()}</p>
-        <div className="flex items-center gap-2 flex-wrap">
-          {deferredPrompt && isAndroid && (
-            <button
-              onClick={handleAndroidInstall}
-              className="bg-black text-yellow-400 font-black text-xs px-4 py-2 rounded-full hover:bg-gray-900 transition-colors"
-            >
-              📲 {lang === 'ru' ? 'Установить' : 'Install App'}
-            </button>
-          )}
-          {(isIPhone || (!isAndroid && !deferredPrompt)) && (
-            <button
-              onClick={() => setIphoneModal(true)}
-              className="bg-black text-yellow-400 font-black text-xs px-4 py-2 rounded-full hover:bg-gray-900 transition-colors"
-            >
-              🍎 {lang === 'ru' ? 'Инструкция для iPhone' : 'iPhone Guide'}
-            </button>
-          )}
+        <span className="text-xs font-semibold" style={{ color: '#aaa' }}>
+          📲 {lang === 'ru' ? 'Добавить на экран' : 'Add to home screen'}
+        </span>
+
+        {deferredPrompt && isAndroid ? (
           <button
-            onClick={() => setVisible(false)}
-            className="text-black text-xl font-bold leading-none px-1 hover:opacity-60 transition-opacity"
-            aria-label="Close"
+            onClick={handleAndroidInstall}
+            className="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider transition-all hover:brightness-110"
+            style={{ background: '#FDE100', color: '#000' }}
           >
-            ✕
+            {lang === 'ru' ? 'Установить' : 'Install'}
           </button>
-        </div>
+        ) : (isIPhone || (!isAndroid && !deferredPrompt)) ? (
+          <button
+            onClick={() => setIphoneModal(true)}
+            className="rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-wider transition-all hover:brightness-110"
+            style={{ background: '#FDE100', color: '#000' }}
+          >
+            {lang === 'ru' ? 'Как?' : 'How?'}
+          </button>
+        ) : null}
+
+        <button
+          onClick={() => setVisible(false)}
+          className="w-5 h-5 flex items-center justify-center rounded-full text-[10px] font-bold transition-opacity hover:opacity-70 flex-shrink-0"
+          style={{ background: 'rgba(255,255,255,0.08)', color: '#666' }}
+          aria-label="Close"
+        >
+          ✕
+        </button>
       </div>
 
-      {/* iPhone modal */}
+      {/* iPhone guide modal — stays compact */}
       {iphoneModal && (
         <div
-          className="fixed inset-0 z-[60] flex items-center justify-center px-4"
-          style={{ background: 'rgba(0,0,0,0.85)' }}
+          className="fixed inset-0 z-[60] flex items-end sm:items-center justify-center px-4 pb-6 sm:pb-0"
+          style={{ background: 'rgba(0,0,0,0.8)' }}
           onClick={(e) => { if (e.target === e.currentTarget) setIphoneModal(false); }}
         >
-          <div className="rounded-3xl p-7 max-w-xs w-full text-center relative border-2" style={{ background: '#000', borderColor: '#FDE100' }}>
+          <div
+            className="rounded-2xl p-5 w-full max-w-xs relative border"
+            style={{ background: '#0d0d0d', borderColor: '#2a2200' }}
+          >
             <button
               onClick={() => setIphoneModal(false)}
-              className="absolute top-3 right-4 text-2xl leading-none"
+              className="absolute top-3 right-3 text-lg leading-none opacity-50 hover:opacity-100"
               style={{ color: '#FDE100' }}
             >
               ×
             </button>
-            <h3 className="font-black text-xl mb-4" style={{ color: '#FDE100' }}>
-              📱 {lang === 'ru' ? 'Установка на iPhone' : 'Install on iPhone'}
+            <h3 className="font-black text-sm mb-3 pr-5" style={{ color: '#FDE100' }}>
+              📱 {lang === 'ru' ? 'Добавить на экран iPhone' : 'Add to iPhone Home Screen'}
             </h3>
-            <ol className="text-left space-y-3 mb-5">
+            <ol className="space-y-2.5">
               {(lang === 'ru' ? [
-                ['Нажми кнопку', 'Поделиться', '⎔'],
-                ['Прокрути вниз', '"Добавить на экран «Домой»"'],
-                ['Нажми', '"Добавить"', 'в правом верхнем углу'],
+                ['Нажми', '«Поделиться» ⎔', 'внизу Safari'],
+                ['Выбери', '«На экран «Домой»»'],
+                ['Нажми', '«Добавить»'],
               ] : [
-                ['Tap the', 'Share', 'button ⎔'],
-                ['Scroll down and tap', '"Add to Home Screen"'],
-                ['Tap', '"Add"', 'in the top right'],
+                ['Tap the', 'Share ⎔', 'button in Safari'],
+                ['Tap', '"Add to Home Screen"'],
+                ['Tap', '"Add"', 'to confirm'],
               ]).map((parts, i) => (
-                <li key={i} className="flex items-start gap-3">
+                <li key={i} className="flex items-center gap-2.5">
                   <span
-                    className="flex-shrink-0 w-6 h-6 rounded-full text-center text-xs font-black leading-6"
+                    className="flex-shrink-0 w-5 h-5 rounded-full text-center text-[10px] font-black leading-5"
                     style={{ background: '#FDE100', color: '#000' }}
                   >
                     {i + 1}
                   </span>
-                  <span className="text-sm text-gray-300">
-                    {parts.map((p, j) => j % 2 === 1 ? <strong key={j} className="text-white"> {p}</strong> : <span key={j}>{p} </span>)}
+                  <span className="text-xs text-gray-400">
+                    {parts.map((p, j) => j % 2 === 1
+                      ? <strong key={j} className="text-white"> {p}</strong>
+                      : <span key={j}>{p} </span>
+                    )}
                   </span>
                 </li>
               ))}
             </ol>
-            <p className="text-xs" style={{ color: '#FDE100' }}>
-              ✨ {lang === 'ru' ? 'FC SILA Academy появится на вашем экране!' : 'FC SILA Academy will appear on your home screen!'}
-            </p>
           </div>
         </div>
       )}
