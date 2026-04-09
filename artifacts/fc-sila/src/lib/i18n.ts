@@ -91,7 +91,7 @@ export const translations = {
         {
           name: 'Vladislav Shishelov',
           role: 'General Director',
-          bio: 'Founder and General Director of FC SILA. Specializes in technical development, age-appropriate coaching methodology, and building player confidence from the ground up.',
+          bio: 'General Director of FC SILA. Specializes in technical development, age-appropriate coaching methodology, and building player confidence from the ground up.',
           quote: '"Every child deserves to love the game. My job is to make sure they do."',
           icon: null,
           vacancy: false,
@@ -323,7 +323,7 @@ export const translations = {
         {
           name: 'Владислав Шишелов',
           role: 'Генеральный директор',
-          bio: 'Основатель и генеральный директор ФК «Сила». Специализация: техническое развитие, возрастная методика тренировок, укрепление уверенности игроков с самого начала.',
+          bio: 'Генеральный директор ФК «Сила». Специализация: техническое развитие, возрастная методика тренировок, укрепление уверенности игроков с самого начала.',
           quote: '«Каждый ребёнок заслуживает полюбить эту игру. Моя задача — сделать так, чтобы это произошло.»',
           icon: null,
           vacancy: false,
