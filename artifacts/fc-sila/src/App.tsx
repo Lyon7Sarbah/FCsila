@@ -20,6 +20,7 @@ import ContactSection from "@/components/ContactSection";
 import InstallBanner from "@/components/InstallBanner";
 import TickerBanner from "@/components/TickerBanner";
 import JoinCTA from "@/components/JoinCTA";
+import AdminPage from "@/pages/AdminPage";
 
 const queryClient = new QueryClient();
 
@@ -40,24 +41,29 @@ function App() {
       <TooltipProvider>
         <LangProvider>
           <Router>
-            <div className="min-h-screen" style={{ background: '#000' }}>
-              <Header />
-              <main style={{ paddingTop: '64px' }}>
-                <Switch>
-                  <Route path="/" component={HomePage} />
-                  <Route path="/coaches" component={CoachesSection} />
-                  <Route path="/players" component={PlayersSection} />
-                  <Route path="/matches" component={MatchesSection} />
-                  <Route path="/training" component={TrainingSection} />
-                  <Route path="/gallery" component={GallerySection} />
-                  <Route path="/contact" component={ContactSection} />
-                  <Route component={HomePage} />
-                </Switch>
-              </main>
-              <JoinCTA />
-              <Footer />
-              <InstallBanner />
-            </div>
+            <Switch>
+              <Route path="/admin" component={AdminPage} />
+              <Route>
+                <div className="min-h-screen" style={{ background: '#000' }}>
+                  <Header />
+                  <main style={{ paddingTop: '64px' }}>
+                    <Switch>
+                      <Route path="/" component={HomePage} />
+                      <Route path="/coaches" component={CoachesSection} />
+                      <Route path="/players" component={PlayersSection} />
+                      <Route path="/matches" component={MatchesSection} />
+                      <Route path="/training" component={TrainingSection} />
+                      <Route path="/gallery" component={GallerySection} />
+                      <Route path="/contact" component={ContactSection} />
+                      <Route component={HomePage} />
+                    </Switch>
+                  </main>
+                  <JoinCTA />
+                  <Footer />
+                  <InstallBanner />
+                </div>
+              </Route>
+            </Switch>
           </Router>
         </LangProvider>
       </TooltipProvider>

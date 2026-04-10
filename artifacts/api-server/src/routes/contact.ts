@@ -1,5 +1,6 @@
 import { Router, type IRouter } from "express";
 import nodemailer from "nodemailer";
+import pool from "../lib/db";
 
 const router: IRouter = Router();
 
@@ -16,13 +17,29 @@ router.post("/contact", async (req, res) => {
 
   const isRu = lang === "ru";
 
+  // Save to database first
+  let registrationId: number | null = null;
+  try {
+    const dbResult = await pool.query(
+      `INSERT INTO registrations
+        (parent_name, phone, email, child_name, child_age, age_group, experience, medical, lang, status)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending')
+       RETURNING id`,
+      [parent_name, phone, email, child_name, child_age, group || null, experience || null, medical || null, lang || 'ru']
+    );
+    registrationId = dbResult.rows[0].id;
+  } catch (dbErr: any) {
+    console.error("DB save error:", dbErr?.message);
+  }
+
+  // Send email notification
   const subject = isRu
-    ? `Новая заявка — ${child_name}, ${child_age} лет`
-    : `New Registration — ${child_name}, Age ${child_age}`;
+    ? `Новая заявка #${registrationId} — ${child_name}, ${child_age}`
+    : `New Registration #${registrationId} — ${child_name}, Age ${child_age}`;
 
   const htmlBody = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; background: #000; color: #fff; padding: 30px; border: 2px solid #FDE100; border-radius: 12px;">
-      <h2 style="color: #FDE100; margin-top: 0;">⚽ ${isRu ? "Новая заявка в Академию ФК Сила" : "New FC SILA Academy Registration"}</h2>
+      <h2 style="color: #FDE100; margin-top: 0;">⚽ ${isRu ? "Новая заявка в Академию ФК Сила" : "New FC SILA Academy Registration"}${registrationId ? ` <span style="color:#888; font-size:16px;">#${registrationId}</span>` : ""}</h2>
 
       <table style="width: 100%; border-collapse: collapse;">
         <tr><td style="padding: 8px 0; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">${isRu ? "Имя родителя" : "Parent Name"}</td><td style="padding: 8px 0; color: #fff; font-weight: bold;">${parent_name}</td></tr>
@@ -56,12 +73,11 @@ router.post("/contact", async (req, res) => {
       subject,
       html: htmlBody,
     });
-
-    res.json({ success: true });
   } catch (err: any) {
-    console.error("Email send error:", err);
-    res.status(500).json({ error: "Failed to send email", detail: err?.message });
+    console.error("Email send error:", err?.message);
   }
+
+  res.json({ success: true, id: registrationId });
 });
 
 export default router;
