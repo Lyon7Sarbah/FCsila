@@ -30,7 +30,7 @@ router.post('/admin/login', (req: Request, res: Response) => {
 // GET /api/admin/registrations
 router.get('/admin/registrations', requireAdmin, async (req: Request, res: Response) => {
   try {
-    const { status, search, limit = '200', offset = '0' } = req.query as Record<string, string>;
+    const { status, age_group, search, limit = '200', offset = '0' } = req.query as Record<string, string>;
     let where = 'WHERE 1=1';
     const params: any[] = [];
     let idx = 1;
@@ -38,6 +38,10 @@ router.get('/admin/registrations', requireAdmin, async (req: Request, res: Respo
     if (status && status !== 'all') {
       where += ` AND status = $${idx++}`;
       params.push(status);
+    }
+    if (age_group && age_group !== 'all') {
+      where += ` AND age_group = $${idx++}`;
+      params.push(age_group);
     }
     if (search) {
       where += ` AND (child_name ILIKE $${idx} OR parent_name ILIKE $${idx} OR phone ILIKE $${idx} OR email ILIKE $${idx})`;
@@ -151,15 +155,26 @@ router.get('/admin/export.csv', requireAdmin, async (req: Request, res: Response
 // GET /api/admin/stats
 router.get('/admin/stats', requireAdmin, async (_req: Request, res: Response) => {
   try {
-    const result = await pool.query(
-      `SELECT status, COUNT(*) as count FROM registrations GROUP BY status`
-    );
+    const [statusResult, ageResult] = await Promise.all([
+      pool.query(`SELECT status, COUNT(*) as count FROM registrations GROUP BY status`),
+      pool.query(`SELECT age_group, COUNT(*) as count FROM registrations GROUP BY age_group`),
+    ]);
+
     const stats: Record<string, number> = { all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0 };
-    for (const row of result.rows) {
+    for (const row of statusResult.rows) {
       stats[row.status] = parseInt(row.count);
       stats.all += parseInt(row.count);
     }
-    res.json(stats);
+
+    const ageCounts: Record<string, number> = { 'all': stats.all, '7-10': 0, '11-15': 0 };
+    for (const row of ageResult.rows) {
+      const key = row.age_group || 'unknown';
+      if (key === '7-10' || key === '11-15') {
+        ageCounts[key] = parseInt(row.count);
+      }
+    }
+
+    res.json({ ...stats, ageCounts });
   } catch (err: any) {
     res.status(500).json({ error: 'Database error' });
   }

@@ -18,7 +18,10 @@ interface Registration {
   created_at: string;
 }
 
-interface Stats { all: number; pending: number; accepted: number; waitlisted: number; rejected: number; trial_booked: number; }
+interface Stats {
+  all: number; pending: number; accepted: number; waitlisted: number; rejected: number; trial_booked: number;
+  ageCounts: { all: number; '7-10': number; '11-15': number };
+}
 
 const STATUS_META: Record<string, { label: string; color: string; bg: string }> = {
   pending:      { label: 'Pending',       color: '#f59e0b', bg: '#1a1000' },
@@ -41,8 +44,9 @@ export default function AdminPage() {
   const [loginLoading, setLoginLoading] = useState(false);
 
   const [rows, setRows] = useState<Registration[]>([]);
-  const [stats, setStats] = useState<Stats>({ all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0 });
+  const [stats, setStats] = useState<Stats>({ all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0, ageCounts: { all: 0, '7-10': 0, '11-15': 0 } });
   const [filterStatus, setFilterStatus] = useState('all');
+  const [ageGroupFilter, setAgeGroupFilter] = useState('all');
   const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
   const [selectedRow, setSelectedRow] = useState<Registration | null>(null);
@@ -65,6 +69,7 @@ export default function AdminPage() {
     try {
       const params = new URLSearchParams({ limit: '200', offset: '0' });
       if (filterStatus !== 'all') params.set('status', filterStatus);
+      if (ageGroupFilter !== 'all') params.set('age_group', ageGroupFilter);
       if (search) params.set('search', search);
       const r = await fetch(`${API}/admin/registrations?${params}`, { headers });
       if (r.ok) {
@@ -72,7 +77,7 @@ export default function AdminPage() {
         setRows(data.rows);
       }
     } catch {} finally { setLoading(false); }
-  }, [token, filterStatus, search]);
+  }, [token, filterStatus, ageGroupFilter, search]);
 
   useEffect(() => { fetchStats(); }, [fetchStats]);
   useEffect(() => { fetchRows(); }, [fetchRows]);
@@ -233,6 +238,40 @@ export default function AdminPage() {
                   {(stats as any)[key] ?? 0}
                 </div>
                 <div className="text-[10px] font-black uppercase tracking-widest mt-0.5" style={{ color: '#555' }}>{label}</div>
+              </button>
+            );
+          })}
+        </div>
+
+        {/* Age Group Tabs */}
+        <div className="flex items-center gap-2 mb-5">
+          <span className="text-[10px] font-black uppercase tracking-widest mr-1" style={{ color: '#444' }}>Age Group</span>
+          {[
+            { key: 'all',   label: 'All Groups',      count: stats.ageCounts?.all ?? stats.all,      icon: '⚽' },
+            { key: '7-10',  label: 'Foundation 7–10', count: stats.ageCounts?.['7-10'] ?? 0,          icon: '🟡' },
+            { key: '11-15', label: 'Development 11–15', count: stats.ageCounts?.['11-15'] ?? 0,       icon: '🟠' },
+          ].map(({ key, label, count, icon }) => {
+            const isActive = ageGroupFilter === key;
+            return (
+              <button
+                key={key}
+                onClick={() => setAgeGroupFilter(key)}
+                className="flex items-center gap-2 px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider transition-all"
+                style={{
+                  background: isActive ? '#FDE100' : '#0d0d0d',
+                  color: isActive ? '#000' : '#666',
+                  border: `1px solid ${isActive ? '#FDE100' : '#1a1a1a'}`,
+                  boxShadow: isActive ? '0 0 12px rgba(253,225,0,0.3)' : 'none',
+                }}
+              >
+                <span>{icon}</span>
+                <span>{label}</span>
+                <span
+                  className="px-1.5 py-0.5 rounded-full text-[10px] font-black"
+                  style={{ background: isActive ? 'rgba(0,0,0,0.2)' : '#1a1a1a', color: isActive ? '#000' : '#555' }}
+                >
+                  {count}
+                </span>
               </button>
             );
           })}
