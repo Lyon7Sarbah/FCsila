@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
@@ -12,11 +12,6 @@ export default function HeroSection() {
   const t = translations[lang].hero;
   const [, navigate] = useLocation();
   const [logoVisible, setLogoVisible] = useState(false);
-
-  // Reset opacity whenever the logo src changes (lang switch)
-  useEffect(() => {
-    setLogoVisible(false);
-  }, [lang]);
 
   return (
     <section
