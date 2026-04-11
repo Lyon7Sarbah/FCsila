@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import { useLocation } from 'wouter';
 import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
@@ -10,6 +11,12 @@ export default function HeroSection() {
   const { lang } = useLang();
   const t = translations[lang].hero;
   const [, navigate] = useLocation();
+  const [logoVisible, setLogoVisible] = useState(false);
+
+  // Reset opacity whenever the logo src changes (lang switch)
+  useEffect(() => {
+    setLogoVisible(false);
+  }, [lang]);
 
   return (
     <section
@@ -85,7 +92,14 @@ export default function HeroSection() {
             src={lang === 'en' ? logoEn : logoRu}
             alt={lang === 'en' ? 'FC SILA' : 'ФК Сила'}
             className="h-32 md:h-52 w-auto object-contain mx-auto"
-            style={{ filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))' }}
+            decoding="async"
+            fetchPriority="high"
+            onLoad={() => setLogoVisible(true)}
+            style={{
+              filter: 'drop-shadow(0 0 50px rgba(253,225,0,0.45))',
+              opacity: logoVisible ? 1 : 0,
+              transition: 'opacity 0.25s ease',
+            }}
           />
         </div>
 
