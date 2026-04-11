@@ -16,6 +16,7 @@ interface Registration {
   status: string;
   notes: string | null;
   created_at: string;
+  agreement_sent_at: string | null;
 }
 
 interface Stats {
@@ -52,6 +53,7 @@ export default function AdminPage() {
   const [selectedRow, setSelectedRow] = useState<Registration | null>(null);
   const [notesDraft, setNotesDraft] = useState('');
   const [savingId, setSavingId] = useState<number | null>(null);
+  const [sendingAgreement, setSendingAgreement] = useState<number | null>(null);
 
   const headers = { 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' };
 
@@ -128,6 +130,26 @@ export default function AdminPage() {
         setSelectedRow(updated);
       }
     } catch {} finally { setSavingId(null); }
+  };
+
+  const sendAgreement = async (id: number) => {
+    if (!confirm(`Send the registration agreement to ${selectedRow?.email}?`)) return;
+    setSendingAgreement(id);
+    try {
+      const r = await fetch(`${API}/admin/registrations/${id}/send-agreement`, {
+        method: 'POST', headers,
+      });
+      const data = await r.json();
+      if (r.ok && data.row) {
+        setRows(prev => prev.map(row => row.id === id ? data.row : row));
+        setSelectedRow(data.row);
+        alert(`✅ Agreement sent to ${data.row.email}`);
+      } else {
+        alert(`❌ Failed: ${data.error || 'Unknown error'}`);
+      }
+    } catch (e: any) {
+      alert(`❌ Error: ${e.message}`);
+    } finally { setSendingAgreement(null); }
   };
 
   const deleteRow = async (id: number) => {
@@ -406,6 +428,32 @@ export default function AdminPage() {
                     className="mt-1.5 w-full py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider transition-all"
                     style={{ background: '#FDE100', color: '#000', opacity: savingId === selectedRow.id ? 0.6 : 1 }}>
                     {savingId === selectedRow.id ? 'Saving…' : 'Save Notes'}
+                  </button>
+                </div>
+
+                {/* Send Agreement */}
+                <div className="pt-2 border-t" style={{ borderColor: '#1a1a1a' }}>
+                  <div className="text-[9px] font-black uppercase tracking-widest mb-2" style={{ color: '#444' }}>Contract Agreement</div>
+                  {selectedRow.agreement_sent_at && (
+                    <div className="mb-2 px-3 py-2 rounded-lg text-[10px]" style={{ background: '#001a0a', border: '1px solid #34d39930', color: '#34d399' }}>
+                      ✅ Sent {new Date(selectedRow.agreement_sent_at).toLocaleString('ru-RU')}
+                    </div>
+                  )}
+                  <button
+                    onClick={() => sendAgreement(selectedRow.id)}
+                    disabled={sendingAgreement === selectedRow.id}
+                    className="w-full py-2.5 rounded-lg text-xs font-black uppercase tracking-wider transition-all"
+                    style={{
+                      background: selectedRow.agreement_sent_at ? '#111' : '#FDE100',
+                      color: selectedRow.agreement_sent_at ? '#555' : '#000',
+                      border: selectedRow.agreement_sent_at ? '1px solid #333' : 'none',
+                      opacity: sendingAgreement === selectedRow.id ? 0.6 : 1,
+                    }}>
+                    {sendingAgreement === selectedRow.id
+                      ? '📨 Sending…'
+                      : selectedRow.agreement_sent_at
+                      ? '📄 Resend Agreement'
+                      : '📄 Send Agreement'}
                   </button>
                 </div>
 
