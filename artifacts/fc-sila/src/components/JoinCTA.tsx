@@ -54,7 +54,7 @@ export default function JoinCTA() {
           {lang === 'en' ? 'Book a Trial Session →' : 'Записаться на пробное занятие →'}
         </button>
         <div className="mt-5 flex justify-center gap-6 text-[10px] font-bold uppercase tracking-wider opacity-50" style={{ color: '#000' }}>
-          <span>✓ {lang === 'en' ? 'Ages 7–15' : 'Возраст 7–15'}</span>
+          <span>✓ {lang === 'en' ? 'Ages 7–16' : 'Возраст 7–16'}</span>
           <span>✓ {lang === 'en' ? 'Every Saturday' : 'Каждую субботу'}</span>
           <span>✓ {lang === 'en' ? 'Max 15 players' : 'Макс. 15 игроков'}</span>
         </div>

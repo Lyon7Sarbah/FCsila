@@ -41,8 +41,12 @@ router.get('/admin/registrations', requireAdmin, async (req: Request, res: Respo
       params.push(status);
     }
     if (age_group && age_group !== 'all') {
-      where += ` AND age_group = $${idx++}`;
-      params.push(age_group);
+      if (age_group === '11-16') {
+        where += ` AND age_group IN ('11-15', '11-16')`;
+      } else {
+        where += ` AND age_group = $${idx++}`;
+        params.push(age_group);
+      }
     }
     if (search) {
       where += ` AND (child_name ILIKE $${idx} OR parent_name ILIKE $${idx} OR phone ILIKE $${idx} OR email ILIKE $${idx})`;
@@ -168,8 +172,8 @@ router.post('/admin/registrations/:id/send-agreement', requireAdmin, async (req:
     const today = new Date().toLocaleDateString('ru-RU', { day: '2-digit', month: '2-digit', year: 'numeric' });
     const group = r.age_group === '7-10'
       ? 'Foundation (Фундамент) 7–10 лет'
-      : r.age_group === '11-15'
-      ? 'Development (Развитие) 11–15 лет'
+      : (r.age_group === '11-15' || r.age_group === '11-16')
+      ? 'Development (Развитие) 11–16 лет'
       : r.age_group || '—';
 
     const htmlAgreement = `
@@ -521,10 +525,10 @@ router.get('/admin/stats', requireAdmin, async (_req: Request, res: Response) =>
       stats.all += parseInt(row.count);
     }
 
-    const ageCounts: Record<string, number> = { 'all': stats.all, '7-10': 0, '11-15': 0 };
+    const ageCounts: Record<string, number> = { 'all': stats.all, '7-10': 0, '11-15': 0, '11-16': 0 };
     for (const row of ageResult.rows) {
       const key = row.age_group || 'unknown';
-      if (key === '7-10' || key === '11-15') {
+      if (key === '7-10' || key === '11-15' || key === '11-16') {
         ageCounts[key] = parseInt(row.count);
       }
     }

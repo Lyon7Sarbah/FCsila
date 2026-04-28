@@ -3,7 +3,7 @@ import { useLang } from '@/context/LangContext';
 const ITEMS_EN = [
   '⚽ FC SILA ACADEMY',
   '★ YOUTH FOOTBALL MOSCOW',
-  '⚽ AGES 7–15',
+  '⚽ AGES 7–16',
   '★ EVERY SATURDAY',
   '⚽ MAX 15 PER GROUP',
   '★ PROFESSIONAL COACHING',
@@ -16,7 +16,7 @@ const ITEMS_EN = [
 const ITEMS_RU = [
   '⚽ ФК СИЛА АКАДЕМИЯ',
   '★ ДЕТСКИЙ ФУТБОЛ МОСКВА',
-  '⚽ ВОЗРАСТ 7–15 ЛЕТ',
+  '⚽ ВОЗРАСТ 7–16 ЛЕТ',
   '★ КАЖДУЮ СУББОТУ',
   '⚽ МАКС. 15 В ГРУППЕ',
   '★ ПРОФЕССИОНАЛЬНЫЕ ТРЕНЕРЫ',

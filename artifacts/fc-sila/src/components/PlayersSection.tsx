@@ -79,7 +79,7 @@ export default function PlayersSection() {
         <div className="mb-14">
           <div className="flex items-center gap-3 mb-6">
             <div className="px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider" style={{ background: '#FDE100', color: '#000' }}>
-              {lang === 'en' ? 'Development' : 'Развитие'} — 11–15
+              {lang === 'en' ? 'Development' : 'Развитие'} — 11–16
             </div>
             <div className="flex-1 h-px" style={{ background: '#1a1a1a' }} />
           </div>

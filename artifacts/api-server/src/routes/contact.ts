@@ -7,7 +7,7 @@ const router: IRouter = Router();
 router.post("/contact", async (req, res) => {
   const {
     parent_name, phone, email, child_name,
-    child_age, group, experience, medical, lang
+    child_age, group, experience, medical, promo_code, lang
   } = req.body;
 
   if (!parent_name || !phone || !email || !child_name || !child_age) {
@@ -22,10 +22,10 @@ router.post("/contact", async (req, res) => {
   try {
     const dbResult = await pool.query(
       `INSERT INTO registrations
-        (parent_name, phone, email, child_name, child_age, age_group, experience, medical, lang, status)
-       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,'pending')
+        (parent_name, phone, email, child_name, child_age, age_group, experience, medical, promo_code, lang, status)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,'pending')
        RETURNING id`,
-      [parent_name, phone, email, child_name, child_age, group || null, experience || null, medical || null, lang || 'ru']
+      [parent_name, phone, email, child_name, child_age, group || null, experience || null, medical || null, promo_code || null, lang || 'ru']
     );
     registrationId = dbResult.rows[0].id;
   } catch (dbErr: any) {
@@ -51,6 +51,7 @@ router.post("/contact", async (req, res) => {
         <tr><td style="padding: 8px 0; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">${isRu ? "Группа" : "Group"}</td><td style="padding: 8px 0; color: #fff;">${group || "—"}</td></tr>
         <tr><td style="padding: 8px 0; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">${isRu ? "Опыт" : "Experience"}</td><td style="padding: 8px 0; color: #fff;">${experience || "—"}</td></tr>
         ${medical ? `<tr><td colspan="2" style="border-top: 1px solid #222; padding-top: 12px;"></td></tr><tr><td style="padding: 8px 0; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">${isRu ? "Мед. информация" : "Medical Info"}</td><td style="padding: 8px 0; color: #fff;">${medical}</td></tr>` : ""}
+        ${promo_code ? `<tr><td colspan="2" style="border-top: 1px solid #222; padding-top: 12px;"></td></tr><tr><td style="padding: 8px 0; color: #888; font-size: 12px; text-transform: uppercase; letter-spacing: 1px;">${isRu ? "Промокод" : "Promo Code"}</td><td style="padding: 8px 0; color: #FDE100; font-weight: bold;">${promo_code}</td></tr>` : ""}
       </table>
 
       <p style="margin-top: 24px; color: #555; font-size: 12px;">— FC SILA Academy Registration System</p>

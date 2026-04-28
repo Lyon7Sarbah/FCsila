@@ -79,7 +79,7 @@ export default function AcademySection() {
                   <span>⚽</span>
                   <span>{lang === 'en' ? 'FC SILA Academy' : 'Академия ФК Сила'}</span>
                   <span>⚽</span>
-                  <span>{lang === 'en' ? 'Ages 7–15' : 'Возраст 7–15'}</span>
+                  <span>{lang === 'en' ? 'Ages 7–16' : 'Возраст 7–16'}</span>
                   <span>⚽</span>
                 </span>
               ))}

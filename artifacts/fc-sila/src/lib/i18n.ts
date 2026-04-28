@@ -15,7 +15,7 @@ export const translations = {
     },
     hero: {
       title: 'FC SILA ACADEMY',
-      subtitle: 'Youth Football Academy | Ages 7–15',
+      subtitle: 'Youth Football Academy | Ages 7–16',
       tagline: 'Build your game. Find your family.',
       badge1: 'Registered Moscow Club',
       badge2: 'Saturday Sessions',
@@ -69,7 +69,7 @@ export const translations = {
         },
         {
           badge: 'DEVELOPMENT',
-          age: 'AGES 11–15',
+          age: 'AGES 11–16',
           icon: '🏆',
           desc: 'The "Tactical Age" – building game intelligence, positioning, and competitive spirit.',
           features: [
@@ -147,7 +147,7 @@ export const translations = {
     matches: {
       title: 'MATCHES',
       philosophy_title: 'Our Match Philosophy',
-      philosophy_text: 'For ages 7–10, we focus on internal friendly matches. For ages 11–15, we arrange competitive friendlies with other Moscow academies. No pressure to win at young ages. Every child plays equal minutes.',
+      philosophy_text: 'For ages 7–10, we focus on internal friendly matches. For ages 11–16, we arrange competitive friendlies with other Moscow academies. No pressure to win at young ages. Every child plays equal minutes.',
       upcoming: 'Upcoming Matches',
       no_matches: 'No matches scheduled yet. Check back soon!',
       cols: { date: 'Date', type: 'Match Type', opponent: 'Opponent', age: 'Age Group', time: 'Time' },
@@ -158,7 +158,7 @@ export const translations = {
       schedule_title: 'Weekly Training Schedule',
       schedule_rows: [
         { day: 'Saturday', group: 'Ages 7–10', status: 'Open' },
-        { day: 'Saturday', group: 'Ages 11–15', status: 'Open' },
+        { day: 'Saturday', group: 'Ages 11–16', status: 'Open' },
       ],
       plan_title: 'Typical 2-Hour Session Plan',
       plan: [
@@ -172,7 +172,7 @@ export const translations = {
       ],
       gear_title: 'What to Bring',
       gear: [
-        { icon: '⚽', text: 'Size 4 (ages 7–10) or Size 5 (ages 11–15) football — with name written on it' },
+        { icon: '⚽', text: 'Size 4 (ages 7–10) or Size 5 (ages 11–16) football — with name written on it' },
         { icon: '👟', text: 'Boots (outdoor or indoor depending on surface)' },
         { icon: '🛡️', text: 'Shin pads (mandatory)' },
         { icon: '💧', text: 'Water bottle' },
@@ -214,7 +214,7 @@ export const translations = {
         group: 'Select Age Group',
         group_options: [
           { value: '7-10', label: 'Foundation (Ages 7–10)' },
-          { value: '11-15', label: 'Development (Ages 11–15)' },
+          { value: '11-16', label: 'Development (Ages 11–16)' },
         ],
         experience: 'Previous Football Experience',
         experience_options: [
@@ -223,6 +223,9 @@ export const translations = {
           { value: 'club', label: 'Club experience' },
         ],
         medical: 'Any medical conditions or allergies? (Optional)',
+        promo_code: 'Promo Code (optional)',
+        promo_invalid: 'Invalid promo code',
+        promo_applied: '✓ Promo code applied!',
         submit: 'REQUEST TRIAL SESSION',
         success: 'Thank you! We will contact you shortly.',
       },
@@ -248,7 +251,7 @@ export const translations = {
     },
     hero: {
       title: 'АКАДЕМИЯ ФК СИЛА',
-      subtitle: 'Детская футбольная академия | Возраст 7–15 лет',
+      subtitle: 'Детская футбольная академия | Возраст 7–16 лет',
       tagline: 'Развивайте игру. Найдите свою команду.',
       badge1: 'Зарегистрированный клуб Москвы',
       badge2: 'Занятия по субботам',
@@ -302,7 +305,7 @@ export const translations = {
         },
         {
           badge: 'РАЗВИТИЕ',
-          age: 'ВОЗРАСТ 11–15',
+          age: 'ВОЗРАСТ 11–16',
           icon: '🏆',
           desc: '«Тактический возраст» — развитие игрового интеллекта, позиционирования и соревновательного духа.',
           features: [
@@ -380,7 +383,7 @@ export const translations = {
     matches: {
       title: 'МАТЧИ',
       philosophy_title: 'Наша философия матчей',
-      philosophy_text: 'Для возраста 7–10 лет мы проводим внутренние товарищеские игры. Для 11–15 лет — организуем товарищеские матчи с другими московскими академиями. Никакого давления в победе на малых возрастах. Каждый ребёнок играет одинаковое количество минут.',
+      philosophy_text: 'Для возраста 7–10 лет мы проводим внутренние товарищеские игры. Для 11–16 лет — организуем товарищеские матчи с другими московскими академиями. Никакого давления в победе на малых возрастах. Каждый ребёнок играет одинаковое количество минут.',
       upcoming: 'Предстоящие матчи',
       no_matches: 'Матчи пока не запланированы. Следите за обновлениями!',
       cols: { date: 'Дата', type: 'Тип матча', opponent: 'Соперник', age: 'Возраст', time: 'Время' },
@@ -391,7 +394,7 @@ export const translations = {
       schedule_title: 'Расписание тренировок',
       schedule_rows: [
         { day: 'Суббота', group: 'Возраст 7–10', status: 'Открыто' },
-        { day: 'Суббота', group: 'Возраст 11–15', status: 'Открыто' },
+        { day: 'Суббота', group: 'Возраст 11–16', status: 'Открыто' },
       ],
       plan_title: 'Типичный план 2-часового занятия',
       plan: [
@@ -405,7 +408,7 @@ export const translations = {
       ],
       gear_title: 'Что взять с собой',
       gear: [
-        { icon: '⚽', text: 'Мяч размер 4 (7–10 лет) или 5 (11–15 лет) — с написанным именем' },
+        { icon: '⚽', text: 'Мяч размер 4 (7–10 лет) или 5 (11–16 лет) — с написанным именем' },
         { icon: '👟', text: 'Бутсы (уличные или манежные в зависимости от покрытия)' },
         { icon: '🛡️', text: 'Щитки (обязательно)' },
         { icon: '💧', text: 'Бутылка с водой' },
@@ -447,7 +450,7 @@ export const translations = {
         group: 'Выберите возрастную группу',
         group_options: [
           { value: '7-10', label: 'Основы (Возраст 7–10)' },
-          { value: '11-15', label: 'Развитие (Возраст 11–15)' },
+          { value: '11-16', label: 'Развитие (Возраст 11–16)' },
         ],
         experience: 'Предыдущий опыт в футболе',
         experience_options: [
@@ -456,6 +459,9 @@ export const translations = {
           { value: 'club', label: 'Опыт в футбольном клубе' },
         ],
         medical: 'Есть ли медицинские ограничения или аллергии? (Необязательно)',
+        promo_code: 'Промокод (необязательно)',
+        promo_invalid: 'Неверный промокод',
+        promo_applied: '✓ Промокод применён!',
         submit: 'ЗАПИСАТЬСЯ НА ПРОБНОЕ ЗАНЯТИЕ',
         success: 'Спасибо! Мы свяжемся с вами в ближайшее время.',
       },

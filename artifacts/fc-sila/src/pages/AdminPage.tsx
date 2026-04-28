@@ -12,6 +12,7 @@ interface Registration {
   phone: string;
   email: string;
   medical: string | null;
+  promo_code: string | null;
   lang: string;
   status: string;
   notes: string | null;
@@ -21,7 +22,7 @@ interface Registration {
 
 interface Stats {
   all: number; pending: number; accepted: number; waitlisted: number; rejected: number; trial_booked: number;
-  ageCounts: { all: number; '7-10': number; '11-15': number };
+  ageCounts: { all: number; '7-10': number; '11-15': number; '11-16': number };
 }
 
 const STATUS_META: Record<string, { label: string; color: string; bg: string }> = {
@@ -45,7 +46,7 @@ export default function AdminPage() {
   const [loginLoading, setLoginLoading] = useState(false);
 
   const [rows, setRows] = useState<Registration[]>([]);
-  const [stats, setStats] = useState<Stats>({ all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0, ageCounts: { all: 0, '7-10': 0, '11-15': 0 } });
+  const [stats, setStats] = useState<Stats>({ all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0, ageCounts: { all: 0, '7-10': 0, '11-15': 0, '11-16': 0 } });
   const [filterStatus, setFilterStatus] = useState('all');
   const [ageGroupFilter, setAgeGroupFilter] = useState('all');
   const [search, setSearch] = useState('');
@@ -271,7 +272,7 @@ export default function AdminPage() {
           {[
             { key: 'all',   label: 'All Groups',      count: stats.ageCounts?.all ?? stats.all,      icon: '⚽' },
             { key: '7-10',  label: 'Foundation 7–10', count: stats.ageCounts?.['7-10'] ?? 0,          icon: '🟡' },
-            { key: '11-15', label: 'Development 11–15', count: stats.ageCounts?.['11-15'] ?? 0,       icon: '🟠' },
+            { key: '11-16', label: 'Development 11–16', count: (stats.ageCounts?.['11-15'] ?? 0) + (stats.ageCounts?.['11-16'] ?? 0), icon: '🟠' },
           ].map(({ key, label, count, icon }) => {
             const isActive = ageGroupFilter === key;
             return (
@@ -386,6 +387,7 @@ export default function AdminPage() {
                   { label: 'Email', value: selectedRow.email, yellow: true },
                   { label: 'Language', value: selectedRow.lang?.toUpperCase() || '—' },
                   { label: 'Medical', value: selectedRow.medical || '—' },
+                  ...(selectedRow.promo_code ? [{ label: 'Promo Code', value: selectedRow.promo_code, yellow: true }] : []),
                   { label: 'Submitted', value: new Date(selectedRow.created_at).toLocaleString('ru-RU') },
                 ].map(({ label, value, yellow }) => (
                   <div key={label}>

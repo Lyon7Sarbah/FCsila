@@ -48,16 +48,31 @@ export default function ContactSection() {
   const { lang } = useLang();
   const t = translations[lang].contact;
 
+  const VALID_PROMOS = ['SILA20', 'ISOT'];
+
   const [form, setForm] = useState({
     parent_name: '', phone: '', email: '', child_name: '',
-    child_age: '', group: '', experience: '', medical: '',
+    child_age: '', group: '', experience: '', medical: '', promo_code: '',
   });
+  const [promoStatus, setPromoStatus] = useState<'idle' | 'valid' | 'invalid'>('idle');
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
 
+  const handlePromoChange = (val: string) => {
+    const upper = val.toUpperCase();
+    setForm({ ...form, promo_code: upper });
+    if (upper === '') setPromoStatus('idle');
+    else if (VALID_PROMOS.includes(upper)) setPromoStatus('valid');
+    else setPromoStatus('invalid');
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (form.promo_code && promoStatus === 'invalid') {
+      setError(t.form.promo_invalid);
+      return;
+    }
     setSending(true);
     setError('');
     try {
@@ -199,7 +214,7 @@ export default function ContactSection() {
                       {lang === 'en' ? 'We will contact you within 24 hours.' : 'Мы свяжемся с вами в течение 24 часов.'}
                     </p>
                     <button
-                      onClick={() => { setSubmitted(false); setForm({ parent_name: '', phone: '', email: '', child_name: '', child_age: '', group: '', experience: '', medical: '' }); }}
+                      onClick={() => { setSubmitted(false); setPromoStatus('idle'); setForm({ parent_name: '', phone: '', email: '', child_name: '', child_age: '', group: '', experience: '', medical: '', promo_code: '' }); }}
                       className="mt-2 px-6 py-2 rounded-full text-xs font-black uppercase tracking-wider border transition-colors hover:bg-yellow-400 hover:text-black"
                       style={{ borderColor: '#FDE100', color: '#FDE100' }}
                     >
@@ -251,7 +266,7 @@ export default function ContactSection() {
                           style={inputBase}>
                           <option value="">—</option>
                           <option value="7-10">7–10</option>
-                          <option value="11-15">11–15</option>
+                          <option value="11-16">11–16</option>
                         </select>
                       </div>
                     </div>
@@ -286,6 +301,38 @@ export default function ContactSection() {
                         onFocus={onFocus} onBlur={onBlur}
                         className="w-full px-4 py-3 rounded-xl text-sm transition-all resize-none"
                         style={inputBase} />
+                    </div>
+
+                    {/* Promo Code */}
+                    <div>
+                      <label className="block text-[11px] font-black uppercase tracking-wider mb-1.5" style={{ color: '#FDE100' }}>{t.form.promo_code}</label>
+                      <div className="relative">
+                        <input
+                          type="text"
+                          value={form.promo_code}
+                          onChange={(e) => handlePromoChange(e.target.value)}
+                          onFocus={onFocus}
+                          onBlur={(e) => { e.target.style.borderColor = promoStatus === 'valid' ? '#4ade80' : promoStatus === 'invalid' ? '#ff4444' : '#252525'; }}
+                          placeholder="SILA20"
+                          className="w-full px-4 py-3 rounded-xl text-sm transition-all uppercase"
+                          style={{
+                            ...inputBase,
+                            borderColor: promoStatus === 'valid' ? '#4ade80' : promoStatus === 'invalid' ? '#ff4444' : '#252525',
+                            paddingRight: promoStatus !== 'idle' ? '2.5rem' : undefined,
+                          }}
+                        />
+                        {promoStatus !== 'idle' && (
+                          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-base">
+                            {promoStatus === 'valid' ? '✅' : '❌'}
+                          </span>
+                        )}
+                      </div>
+                      {promoStatus === 'valid' && (
+                        <p className="text-xs mt-1 font-semibold" style={{ color: '#4ade80' }}>{t.form.promo_applied}</p>
+                      )}
+                      {promoStatus === 'invalid' && (
+                        <p className="text-xs mt-1" style={{ color: '#ff6666' }}>{t.form.promo_invalid}</p>
+                      )}
                     </div>
 
                     {error && (
