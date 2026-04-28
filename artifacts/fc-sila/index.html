@@ -6,8 +6,8 @@
 
     <!-- Primary Meta -->
     <title>Академия ФК Сила — Детская футбольная академия Москва | FC SILA Academy Moscow</title>
-    <meta name="description" content="Академия ФК Сила — детская футбольная академия в Москве для детей 7–15 лет. Профессиональные тренеры, занятия по субботам. Запись на пробное занятие. FC SILA Moscow youth football academy." />
-    <meta name="keywords" content="футбольная академия Москва, детский футбол Москва, ФК Сила, FC SILA, football academy Moscow, youth football Moscow, футбол дети 7-15 лет" />
+    <meta name="description" content="Академия ФК Сила — детская футбольная академия в Москве для детей 7–16 лет. Профессиональные тренеры, занятия по субботам. Запись на пробное занятие. FC SILA Moscow youth football academy." />
+    <meta name="keywords" content="футбольная академия Москва, детский футбол Москва, ФК Сила, FC SILA, football academy Moscow, youth football Moscow, футбол дети 7-16 лет" />
     <meta name="robots" content="index, follow" />
     <meta name="author" content="FC SILA Academy" />
     <link rel="canonical" href="https://fc-sila-moscow.replit.app/" />
@@ -16,7 +16,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://fc-sila-moscow.replit.app/" />
     <meta property="og:title" content="Академия ФК Сила — Детская футбольная академия Москва" />
-    <meta property="og:description" content="Профессиональная детская футбольная академия в Москве для детей 7–15 лет. Занятия по субботам. Запись на пробное занятие." />
+    <meta property="og:description" content="Профессиональная детская футбольная академия в Москве для детей 7–16 лет. Занятия по субботам. Запись на пробное занятие." />
     <meta property="og:image" content="https://fc-sila-moscow.replit.app/opengraph.jpg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -27,7 +27,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="Академия ФК Сила — Детская футбольная академия Москва" />
-    <meta name="twitter:description" content="Профессиональная детская футбольная академия в Москве для детей 7–15 лет." />
+    <meta name="twitter:description" content="Профессиональная детская футбольная академия в Москве для детей 7–16 лет." />
     <meta name="twitter:image" content="https://fc-sila-moscow.replit.app/opengraph.jpg" />
 
     <!-- Favicons -->
@@ -43,37 +43,211 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Structured Data: Organization -->
+    <!-- Structured Data: SportsClub (LocalBusiness) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "SportsOrganization",
+      "@type": ["SportsClub", "LocalBusiness"],
+      "@id": "https://fc-sila-moscow.replit.app/#organization",
       "name": "Академия ФК Сила",
-      "alternateName": "FC SILA Academy",
+      "alternateName": ["FC SILA Academy", "ФК Сила Москва", "FC SILA Moscow"],
       "url": "https://fc-sila-moscow.replit.app/",
-      "logo": "https://fc-sila-moscow.replit.app/apple-touch-icon.png",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://fc-sila-moscow.replit.app/apple-touch-icon.png",
+        "width": 180,
+        "height": 180
+      },
       "image": "https://fc-sila-moscow.replit.app/opengraph.jpg",
-      "description": "Детская футбольная академия в Москве для детей 7–15 лет. Профессиональные тренеры, занятия по субботам.",
-      "sport": "Soccer",
+      "description": "Детская футбольная академия в Москве для мальчиков 7–16 лет. Профессиональные тренеры, малые группы (макс. 15 человек), занятия каждую субботу. FC SILA Moscow youth football academy for boys aged 7–16.",
+      "sport": "Football",
       "foundingDate": "2020-03-06",
+      "numberOfEmployees": { "@type": "QuantitativeValue", "value": 2 },
+      "priceRange": "10 000–12 000 ₽/мес",
+      "currenciesAccepted": "RUB",
+      "paymentAccepted": "Cash, Bank transfer",
       "address": {
         "@type": "PostalAddress",
-        "addressLocality": "Люберцы",
+        "streetAddress": "СНТ Ёлочка, 38а, помещение 1",
+        "addressLocality": "посёлок Мотяково, Люберцы",
         "addressRegion": "Московская область",
         "postalCode": "140009",
         "addressCountry": "RU"
       },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "telephone": "+7-930-963-06-99",
-        "contactType": "customer service",
-        "email": "fcsilamoscow@gmail.com",
-        "availableLanguage": ["Russian", "English"]
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": "55.6768",
+        "longitude": "37.8984"
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "09:00",
+        "closes": "13:00"
+      },
+      "telephone": "+7-930-963-06-99",
+      "email": "fcsilamoscow@gmail.com",
+      "contactPoint": [
+        {
+          "@type": "ContactPoint",
+          "telephone": "+7-930-963-06-99",
+          "contactType": "customer service",
+          "contactOption": "TollFree",
+          "availableLanguage": ["Russian", "English"]
+        },
+        {
+          "@type": "ContactPoint",
+          "email": "fcsilamoscow@gmail.com",
+          "contactType": "registration",
+          "availableLanguage": ["Russian", "English"]
+        }
+      ],
+      "founder": {
+        "@type": "Person",
+        "@id": "https://fc-sila-moscow.replit.app/#vladislav-shishelov",
+        "name": "Шишелов Владислав Олегович",
+        "alternateName": "Vladislav Shishelov",
+        "jobTitle": "Генеральный директор / General Director"
+      },
+      "employee": {
+        "@type": "Person",
+        "@id": "https://fc-sila-moscow.replit.app/#vladislav-shishelov",
+        "name": "Шишелов Владислав Олегович",
+        "alternateName": "Vladislav Shishelov",
+        "jobTitle": "Главный тренер / Head Coach"
       },
       "sameAs": [
         "https://instagram.com/academyfcsila",
         "https://facebook.com/academyfcsila",
         "https://vk.com/academyfcsila"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Программы обучения / Training Programs",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "name": "Foundation — Основы (7–10 лет)",
+            "description": "Базовая программа для детей 7–10 лет. Техника владения мячом, игры 4×4, индивидуальные единоборства. Макс. 15 игроков в группе.",
+            "price": "10000",
+            "priceCurrency": "RUB",
+            "eligibleAge": { "@type": "QuantitativeValue", "minValue": 7, "maxValue": 10 },
+            "url": "https://fc-sila-moscow.replit.app/academy"
+          },
+          {
+            "@type": "Offer",
+            "name": "Development — Развитие (11–16 лет)",
+            "description": "Программа развития для детей 11–16 лет. Тактическое мышление, форматы 8×8 и 11×11, товарищеские матчи с другими академиями Москвы.",
+            "price": "12000",
+            "priceCurrency": "RUB",
+            "eligibleAge": { "@type": "QuantitativeValue", "minValue": 11, "maxValue": 16 },
+            "url": "https://fc-sila-moscow.replit.app/academy"
+          }
+        ]
+      }
+    }
+    </script>
+
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "@id": "https://fc-sila-moscow.replit.app/#website",
+      "url": "https://fc-sila-moscow.replit.app/",
+      "name": "Академия ФК Сила",
+      "description": "Официальный сайт детской футбольной академии ФК Сила, Москва",
+      "inLanguage": ["ru-RU", "en-US"],
+      "publisher": { "@id": "https://fc-sila-moscow.replit.app/#organization" },
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://fc-sila-moscow.replit.app/contact"
+        },
+        "query-input": "required name=registration"
+      }
+    }
+    </script>
+
+    <!-- Structured Data: FAQPage -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Какой возраст принимается в академию ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Академия ФК Сила принимает мальчиков от 7 до 16 лет. Группа «Основы» — для детей 7–10 лет, группа «Развитие» — для детей 11–16 лет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Когда проходят тренировки в академии ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Тренировки проходят каждую субботу. Занятие длится 2 часа."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько стоит обучение в академии ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Группа «Основы» (7–10 лет) — 10 000 ₽ в месяц. Группа «Развитие» (11–16 лет) — 12 000 ₽ в месяц. Пробное занятие — 2 000 ₽, которые вычитаются из первого месяца при вступлении."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Как записаться на пробное занятие в академию ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Заполните форму записи на сайте на странице «Контакты», или напишите нам на WhatsApp: +7 930 963 06 99, или по email: fcsilamoscow@gmail.com. Мы свяжемся с вами в течение 24 часов."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Где находится академия ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Академия расположена по адресу: Московская область, Люберцы, посёлок Мотяково, СНТ Ёлочка, 38а, помещение 1. Точный адрес тренировочной площадки отправляется после записи."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Принимают ли девочек в академию ФК Сила?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "В настоящее время академия ФК Сила принимает только мальчиков в возрасте 7–16 лет."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Сколько детей в одной группе?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Максимальный размер группы — 15 игроков на тренера. Это позволяет уделять каждому ребёнку индивидуальное внимание."
+          }
+        }
+      ]
+    }
+    </script>
+
+    <!-- Structured Data: BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Главная", "item": "https://fc-sila-moscow.replit.app/" },
+        { "@type": "ListItem", "position": 2, "name": "О нас", "item": "https://fc-sila-moscow.replit.app/about" },
+        { "@type": "ListItem", "position": 3, "name": "Академия", "item": "https://fc-sila-moscow.replit.app/academy" },
+        { "@type": "ListItem", "position": 4, "name": "Тренеры", "item": "https://fc-sila-moscow.replit.app/coaches" },
+        { "@type": "ListItem", "position": 5, "name": "Тренировки", "item": "https://fc-sila-moscow.replit.app/training" },
+        { "@type": "ListItem", "position": 6, "name": "Контакты", "item": "https://fc-sila-moscow.replit.app/contact" }
       ]
     }
     </script>
