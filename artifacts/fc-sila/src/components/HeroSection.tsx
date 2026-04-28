@@ -4,7 +4,6 @@ import { useLang } from '@/context/LangContext';
 import { translations } from '@/lib/i18n';
 import logoEn from '@assets/football_club_strength_1775666267415.png';
 import logoRu from '@/assets/sila_logo_transparent.png';
-import heroBg from '@/assets/hero-new.png';
 import heroVideo from '@/assets/hero-video.mp4';
 
 export default function HeroSection() {
@@ -19,19 +18,8 @@ export default function HeroSection() {
       className="relative flex flex-col overflow-hidden"
       style={{ minHeight: 'calc(100vh - 64px)' }}
     >
-      {/* Video background — with image fallback for all devices */}
-      <div className="absolute inset-0">
-        {/* Fallback image — shown when video hasn't loaded yet */}
-        <div
-          style={{
-            position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${heroBg})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center center',
-            backgroundRepeat: 'no-repeat',
-          }}
-        />
+      {/* Video background */}
+      <div className="absolute inset-0" style={{ background: '#000' }}>
         {/* Video — autoplay muted loop works on iOS/Android with playsInline */}
         <video
           autoPlay
