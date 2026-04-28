@@ -170,7 +170,7 @@ export default function HeroSection() {
         <div className="max-w-5xl mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4">
             {[
-              { num: '7–15', label: lang === 'en' ? 'Age Range' : 'Возраст' },
+              { num: '7–16', label: lang === 'en' ? 'Age Range' : 'Возраст' },
               { num: '15', label: lang === 'en' ? 'Max per Group' : 'Макс. в группе' },
               { num: '2', label: lang === 'en' ? 'Age Groups' : 'Группы' },
               { num: '2020', label: lang === 'en' ? 'Founded' : 'Основан' },

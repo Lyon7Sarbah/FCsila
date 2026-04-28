@@ -313,7 +313,7 @@ export default function ContactSection() {
                           onChange={(e) => handlePromoChange(e.target.value)}
                           onFocus={onFocus}
                           onBlur={(e) => { e.target.style.borderColor = promoStatus === 'valid' ? '#4ade80' : promoStatus === 'invalid' ? '#ff4444' : '#252525'; }}
-                          placeholder="SILA20"
+                          placeholder=""
                           className="w-full px-4 py-3 rounded-xl text-sm transition-all uppercase"
                           style={{
                             ...inputBase,
