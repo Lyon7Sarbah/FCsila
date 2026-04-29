@@ -65,7 +65,7 @@ export default function CoachesSection() {
                         boxShadow: '0 0 24px rgba(253,225,0,0.2)',
                       }}
                     >
-                      👨‍💼
+                      {coach.icon || '👨‍💼'}
                     </div>
                     <span className="text-xs uppercase tracking-widest font-bold" style={{ color: '#FDE100' }}>
                       {coach.role}

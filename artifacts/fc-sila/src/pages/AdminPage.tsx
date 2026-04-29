@@ -164,8 +164,6 @@ export default function AdminPage() {
   };
 
   const handleExport = () => {
-    window.open(`${API}/admin/export.csv?token=${encodeURIComponent(token)}`, '_blank');
-    // Use token in header approach via fetch and blob
     fetch(`${API}/admin/export.csv`, { headers })
       .then(r => r.blob())
       .then(blob => {
@@ -232,7 +230,13 @@ export default function AdminPage() {
             style={{ borderColor: '#34d399', color: '#34d399' }}>
             ↓ Export CSV
           </button>
-          <button onClick={() => { sessionStorage.removeItem('admin_token'); setToken(''); }}
+          <button onClick={async () => {
+            try {
+              await fetch(`${API}/admin/logout`, { method: 'POST', headers });
+            } catch {}
+            sessionStorage.removeItem('admin_token');
+            setToken('');
+          }}
             className="px-4 py-2 rounded-full text-xs font-black uppercase tracking-wider border transition-colors hover:bg-white/5"
             style={{ borderColor: '#333', color: '#888' }}>
             Log Out

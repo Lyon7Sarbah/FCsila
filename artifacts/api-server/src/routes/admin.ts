@@ -1,4 +1,5 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
+import { randomBytes } from "crypto";
 import nodemailer from "nodemailer";
 import pool from "../lib/db";
 
@@ -6,26 +7,151 @@ const router: IRouter = Router();
 
 const VALID_STATUSES = ['pending', 'accepted', 'waitlisted', 'rejected', 'trial_booked'];
 
+// --- Session store (in-memory, resets on server restart) ---
+const SESSION_TTL_MS = 8 * 60 * 60 * 1000; // 8 hours
+
+interface Session {
+  expiresAt: number;
+}
+
+const sessions = new Map<string, Session>();
+
+function createSession(): string {
+  const token = randomBytes(32).toString('hex');
+  sessions.set(token, { expiresAt: Date.now() + SESSION_TTL_MS });
+  return token;
+}
+
+function isValidSession(token: string): boolean {
+  const session = sessions.get(token);
+  if (!session) return false;
+  if (Date.now() > session.expiresAt) {
+    sessions.delete(token);
+    return false;
+  }
+  return true;
+}
+
+// Periodic cleanup of expired sessions (runs every hour)
+setInterval(() => {
+  const now = Date.now();
+  for (const [token, session] of sessions) {
+    if (now > session.expiresAt) sessions.delete(token);
+  }
+}, 60 * 60 * 1000).unref();
+
+// --- In-route rate limiter (defense-in-depth; express-rate-limit also applied globally) ---
+const loginAttempts = new Map<string, { count: number; resetAt: number }>();
+const LOGIN_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+const LOGIN_MAX_ATTEMPTS = 10;
+
+function checkLoginRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const entry = loginAttempts.get(ip);
+  if (!entry || now > entry.resetAt) {
+    loginAttempts.set(ip, { count: 1, resetAt: now + LOGIN_WINDOW_MS });
+    return false; // not limited
+  }
+  entry.count += 1;
+  return entry.count > LOGIN_MAX_ATTEMPTS;
+}
+
+function resetLoginRateLimit(ip: string): void {
+  loginAttempts.delete(ip);
+}
+
+// --- Auth middleware ---
 function requireAdmin(req: Request, res: Response, next: NextFunction) {
   const auth = req.headers['authorization'] || '';
   const token = auth.replace('Bearer ', '').trim();
-  const adminPassword = process.env['ADMIN_PASSWORD'] || '';
-  if (!adminPassword || token !== adminPassword) {
+  if (!token || !isValidSession(token)) {
     res.status(401).json({ error: 'Unauthorized' });
     return;
   }
   next();
 }
 
+function auditLog(event: string, ip: string, detail?: string) {
+  const ts = new Date().toISOString();
+  console.log(`[ADMIN AUDIT] ${ts} event=${event} ip=${ip}${detail ? ` ${detail}` : ''}`);
+}
+
 // POST /api/admin/login
 router.post('/admin/login', (req: Request, res: Response) => {
+  const ip = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+
+  if (checkLoginRateLimit(ip)) {
+    auditLog('LOGIN_RATE_LIMITED', ip);
+    res.status(429).json({ error: 'Too many login attempts. Please wait 15 minutes.' });
+    return;
+  }
+
   const { password } = req.body;
   const adminPassword = process.env['ADMIN_PASSWORD'] || '';
+
+  if (!adminPassword) {
+    console.error('ADMIN_PASSWORD secret is not configured');
+    res.status(500).json({ error: 'Server configuration error' });
+    return;
+  }
+
   if (!password || password !== adminPassword) {
+    auditLog('LOGIN_FAILED', ip);
     res.status(401).json({ error: 'Invalid password' });
     return;
   }
-  res.json({ token: adminPassword });
+
+  resetLoginRateLimit(ip);
+  const token = createSession();
+  auditLog('LOGIN_SUCCESS', ip);
+  res.json({ token });
+});
+
+// POST /api/admin/logout
+router.post('/admin/logout', requireAdmin, (req: Request, res: Response) => {
+  const ip = (req.headers['x-forwarded-for'] as string || req.socket.remoteAddress || 'unknown').split(',')[0].trim();
+  const auth = req.headers['authorization'] || '';
+  const token = auth.replace('Bearer ', '').trim();
+  sessions.delete(token);
+  auditLog('LOGOUT', ip);
+  res.json({ success: true });
+});
+
+// GET /api/admin/stats
+router.get('/admin/stats', requireAdmin, async (_req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT
+        COUNT(*)::int AS all,
+        COUNT(*) FILTER (WHERE status = 'pending')::int AS pending,
+        COUNT(*) FILTER (WHERE status = 'accepted')::int AS accepted,
+        COUNT(*) FILTER (WHERE status = 'waitlisted')::int AS waitlisted,
+        COUNT(*) FILTER (WHERE status = 'rejected')::int AS rejected,
+        COUNT(*) FILTER (WHERE status = 'trial_booked')::int AS trial_booked,
+        COUNT(*) FILTER (WHERE age_group = '7-10')::int AS "ageCounts_7_10",
+        COUNT(*) FILTER (WHERE age_group = '11-15')::int AS "ageCounts_11_15",
+        COUNT(*) FILTER (WHERE age_group = '11-16')::int AS "ageCounts_11_16"
+      FROM registrations
+    `);
+    const row = result.rows[0];
+    res.json({
+      all: row.all,
+      pending: row.pending,
+      accepted: row.accepted,
+      waitlisted: row.waitlisted,
+      rejected: row.rejected,
+      trial_booked: row.trial_booked,
+      ageCounts: {
+        all: row.all,
+        '7-10': row['ageCounts_7_10'],
+        '11-15': row['ageCounts_11_15'],
+        '11-16': row['ageCounts_11_16'],
+      },
+    });
+  } catch (err: any) {
+    console.error('Admin stats error:', err?.message);
+    res.status(500).json({ error: 'Database error' });
+  }
 });
 
 // GET /api/admin/registrations
@@ -130,7 +256,7 @@ function csvCell(value: unknown): string {
   return `"${safe.replace(/"/g, '""')}"`;
 }
 
-// GET /api/admin/registrations/export.csv
+// GET /api/admin/export.csv
 router.get('/admin/export.csv', requireAdmin, async (req: Request, res: Response) => {
   try {
     const result = await pool.query(
@@ -218,8 +344,6 @@ router.post('/admin/registrations/:id/send-agreement', requireAdmin, async (req:
       ОГРН: 1207700105073 · ИНН: 9715380269 · Генеральный директор: Шишелов Владислав Олегович
     </div>
   </div>
-
-  <!-- Section helper macro (via inline repetition) -->
 
   <!-- 1. Player Info -->
   <div style="padding:24px 40px 0;">
@@ -411,138 +535,71 @@ router.post('/admin/registrations/:id/send-agreement', requireAdmin, async (req:
       12. Форс-мажор · Force Majeure
     </div>
     <p style="color:#333;font-size:13px;line-height:1.9;margin:0;">
-      Академия не несёт ответственности за невозможность предоставления услуг вследствие обстоятельств непреодолимой силы: экстремальные погодные условия, правительственные постановления, пандемии, закрытие площадки или болезнь тренера. В таких случаях взносы не возвращаются.<br>
-      <span style="color:#888;font-size:12px;">The Academy is not liable for failure to provide services due to extreme weather, government orders, pandemic restrictions, facility closures, or coach illness.</span>
+      Академия не несёт ответственности за отмену или перенос занятий вследствие экстремальных погодных условий, государственных ограничений, недоступности объекта или иных обстоятельств непреодолимой силы. В случае отмены занятий академия обязуется уведомить родителей по возможности заблаговременно и организовать компенсирующую сессию или выдать кредит при отмене более двух занятий подряд.<br>
+      <span style="color:#888;font-size:12px;">The Academy is not liable for session cancellations due to extreme weather, government restrictions, facility unavailability, or other force majeure. Makeup sessions or credits will be arranged for 2+ consecutive cancellations.</span>
     </p>
   </div>
 
-  <!-- 13. Governing Law -->
-  <div style="padding:24px 40px 0;">
-    <div style="font-size:10px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#FDE100;border-bottom:2px solid #FDE100;padding-bottom:6px;margin-bottom:12px;">
-      13. Применимое право · Governing Law
-    </div>
-    <p style="color:#333;font-size:13px;line-height:1.9;margin:0;">
-      Настоящий договор регулируется законодательством Российской Федерации. Все споры разрешаются в судах г. Москвы.<br>
-      <span style="color:#888;font-size:12px;">Governed by the laws of the Russian Federation. Disputes resolved in the courts of Moscow.</span>
-    </p>
-  </div>
-
-  <!-- 14. Trial Session Add-on -->
-  <div style="padding:24px 40px 0;">
-    <div style="font-size:10px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#FDE100;border-bottom:2px solid #FDE100;padding-bottom:6px;margin-bottom:12px;">
-      14. Пробное занятие · Trial Session (if applicable)
-    </div>
-    <p style="color:#333;font-size:13px;line-height:1.9;margin:0 0 10px;">
-      Взнос за пробное занятие (2 000 руб.) не возвращается. При зачислении в течение 7 дней после пробного занятия эта сумма вычитается из первого ежемесячного взноса.<br>
-      <span style="color:#888;font-size:12px;">The trial session fee of 2,000 RUB is non-refundable. If enrolled within 7 days of the trial, this amount is deducted from the first monthly fee.</span>
-    </p>
-    <p style="font-size:13px;color:#333;margin:6px 0;">☐ &nbsp;<strong>Согласен(а) / I agree</strong></p>
-  </div>
-
-  <!-- Signatures -->
-  <div style="padding:28px 40px 0;">
+  <!-- Signature -->
+  <div style="padding:32px 40px 40px;">
     <div style="font-size:10px;font-weight:900;letter-spacing:3px;text-transform:uppercase;color:#FDE100;border-bottom:2px solid #FDE100;padding-bottom:6px;margin-bottom:20px;">
       Подписи · Signatures
     </div>
-    <table style="width:100%;font-size:13px;color:#333;">
+    <table style="width:100%;border-collapse:collapse;">
       <tr>
-        <td style="width:50%;padding-right:20px;vertical-align:top;">
-          <p style="font-weight:700;margin:0 0 4px;">Родитель/Законный представитель<br><span style="font-weight:400;color:#888;font-size:12px;">Parent/Guardian</span></p>
-          <p style="margin:0 0 2px;color:#888;font-size:12px;">Имя / Name: <strong style="color:#111;">${r.parent_name}</strong></p>
-          <div style="margin-top:28px;border-bottom:1px solid #ccc;width:90%;"></div>
-          <p style="font-size:11px;color:#aaa;margin:4px 0;">Подпись / Signature</p>
-          <div style="margin-top:16px;border-bottom:1px solid #ccc;width:90%;"></div>
-          <p style="font-size:11px;color:#aaa;margin:4px 0;">Дата / Date</p>
+        <td style="width:48%;vertical-align:top;padding-right:16px;">
+          <p style="font-size:12px;color:#555;margin:0 0 40px;">Родитель/Законный представитель<br><span style="color:#999;">Parent/Guardian</span></p>
+          <div style="border-top:1px solid #ccc;padding-top:8px;">
+            <p style="font-size:12px;color:#333;margin:0;">${r.parent_name}</p>
+            <p style="font-size:10px;color:#999;margin:4px 0 0;">Дата / Date: ___________</p>
+          </div>
         </td>
-        <td style="width:50%;padding-left:20px;vertical-align:top;">
-          <p style="font-weight:700;margin:0 0 4px;">Представитель Академии<br><span style="font-weight:400;color:#888;font-size:12px;">FC SILA Representative</span></p>
-          <p style="margin:0 0 2px;color:#888;font-size:12px;">Шишелов Владислав Олегович</p>
-          <div style="margin-top:28px;border-bottom:1px solid #ccc;width:90%;"></div>
-          <p style="font-size:11px;color:#aaa;margin:4px 0;">Подпись / Signature</p>
-          <div style="margin-top:16px;border-bottom:1px solid #ccc;width:90%;"></div>
-          <p style="font-size:11px;color:#aaa;margin:4px 0;">Дата / Date</p>
+        <td style="width:4%;"></td>
+        <td style="width:48%;vertical-align:top;">
+          <p style="font-size:12px;color:#555;margin:0 0 40px;">FC SILA Moscow<br><span style="color:#999;">Authorised Representative</span></p>
+          <div style="border-top:1px solid #ccc;padding-top:8px;">
+            <p style="font-size:12px;color:#333;margin:0;">Шишелов Владислав Олегович</p>
+            <p style="font-size:10px;color:#999;margin:4px 0 0;">Дата / Date: ___________</p>
+          </div>
         </td>
       </tr>
     </table>
-    <p style="color:#888;font-size:11px;margin-top:20px;line-height:1.7;">
-      Подписывая данный договор, я подтверждаю, что прочитал(а) и понял(а) все его условия, являюсь родителем/законным представителем Игрока и принимаю все риски, связанные с занятиями футболом.<br>
-      By signing, I confirm I have read and understood this entire agreement, I am the parent/legal guardian of the Player, and I accept the risks of football.
-    </p>
   </div>
 
   <!-- Footer -->
-  <div style="background:#000;margin-top:32px;padding:20px 40px;text-align:center;">
-    <p style="color:#555;font-size:11px;margin:0;">FC SILA Moscow · fcsilamoscow@gmail.com · WhatsApp: +7 930 963 06 99</p>
-    <p style="color:#444;font-size:10px;margin:6px 0 0;">@academyfcsila · Instagram · Facebook · VK</p>
-    <p style="color:#333;font-size:10px;margin:6px 0 0;">Заявка #${r.id} · Отправлено ${today}</p>
+  <div style="background:#000;padding:20px 40px;text-align:center;">
+    <div style="font-size:10px;color:#555;letter-spacing:1px;">FC SILA MOSCOW · fcsila.ru · info@fcsila.ru</div>
+    <div style="font-size:9px;color:#333;margin-top:4px;">Этот документ является официальным договором / This document constitutes a binding agreement</div>
   </div>
 
 </div>
 </body>
 </html>`;
 
-    // Send email to parent (CC academy)
-    try {
-      const transporter = nodemailer.createTransport({
-        service: 'gmail',
-        auth: {
-          user: 'fcsilamoscow@gmail.com',
-          pass: process.env['GMAIL_APP_PASSWORD'],
-        },
-      });
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'fcsilamoscow@gmail.com',
+        pass: process.env['GMAIL_APP_PASSWORD'],
+      },
+    });
 
-      await transporter.sendMail({
-        from: '"FC SILA Academy" <fcsilamoscow@gmail.com>',
-        to: r.email,
-        cc: 'fcsilamoscow@gmail.com',
-        subject: `Договор о зачислении — ${r.child_name} · FC SILA Academy Agreement #${r.id}`,
-        html: htmlAgreement,
-      });
-    } catch (mailErr: any) {
-      console.error('Agreement email error:', mailErr?.message);
-      res.status(500).json({ error: 'Failed to send email: ' + mailErr?.message });
-      return;
-    }
+    await transporter.sendMail({
+      from: '"FC SILA Moscow Academy" <fcsilamoscow@gmail.com>',
+      to: r.email,
+      subject: `FC SILA Moscow – Registration Agreement / Договор зачисления #${r.id}`,
+      html: htmlAgreement,
+    });
 
-    // Mark sent
-    await pool.query(
-      `UPDATE registrations SET agreement_sent_at = NOW(), updated_at = NOW() WHERE id = $1`,
+    const updated = await pool.query(
+      `UPDATE registrations SET agreement_sent_at = NOW() WHERE id = $1 RETURNING *`,
       [parseInt(id)]
     );
 
-    const updated = await pool.query('SELECT * FROM registrations WHERE id = $1', [parseInt(id)]);
     res.json({ success: true, row: updated.rows[0] });
   } catch (err: any) {
     console.error('Send agreement error:', err?.message);
-    res.status(500).json({ error: 'Server error' });
-  }
-});
-
-// GET /api/admin/stats
-router.get('/admin/stats', requireAdmin, async (_req: Request, res: Response) => {
-  try {
-    const [statusResult, ageResult] = await Promise.all([
-      pool.query(`SELECT status, COUNT(*) as count FROM registrations GROUP BY status`),
-      pool.query(`SELECT age_group, COUNT(*) as count FROM registrations GROUP BY age_group`),
-    ]);
-
-    const stats: Record<string, number> = { all: 0, pending: 0, accepted: 0, waitlisted: 0, rejected: 0, trial_booked: 0 };
-    for (const row of statusResult.rows) {
-      stats[row.status] = parseInt(row.count);
-      stats.all += parseInt(row.count);
-    }
-
-    const ageCounts: Record<string, number> = { 'all': stats.all, '7-10': 0, '11-15': 0, '11-16': 0 };
-    for (const row of ageResult.rows) {
-      const key = row.age_group || 'unknown';
-      if (key === '7-10' || key === '11-15' || key === '11-16') {
-        ageCounts[key] = parseInt(row.count);
-      }
-    }
-
-    res.json({ ...stats, ageCounts });
-  } catch (err: any) {
-    res.status(500).json({ error: 'Database error' });
+    res.status(500).json({ error: 'Failed to send agreement email' });
   }
 });
 
