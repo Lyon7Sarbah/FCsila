@@ -123,6 +123,13 @@ router.delete('/admin/registrations/:id', requireAdmin, async (req: Request, res
   }
 });
 
+function csvCell(value: unknown): string {
+  const str = value == null ? '' : String(value);
+  const FORMULA_CHARS = /^[=+\-@\t\r]/;
+  const safe = FORMULA_CHARS.test(str) ? `'${str}` : str;
+  return `"${safe.replace(/"/g, '""')}"`;
+}
+
 // GET /api/admin/registrations/export.csv
 router.get('/admin/export.csv', requireAdmin, async (req: Request, res: Response) => {
   try {
@@ -134,18 +141,18 @@ router.get('/admin/export.csv', requireAdmin, async (req: Request, res: Response
 
     const headers = ['ID','Child Name','Age Group','Experience','Parent Name','Phone','Email','Medical','Language','Status','Notes','Submitted At'];
     const rows = result.rows.map(r => [
-      r.id,
-      `"${(r.child_name || '').replace(/"/g, '""')}"`,
-      r.age_group || '',
-      r.experience || '',
-      `"${(r.parent_name || '').replace(/"/g, '""')}"`,
-      r.phone || '',
-      r.email || '',
-      `"${(r.medical || '').replace(/"/g, '""')}"`,
-      r.lang || '',
-      r.status || '',
-      `"${(r.notes || '').replace(/"/g, '""')}"`,
-      new Date(r.created_at).toISOString(),
+      csvCell(r.id),
+      csvCell(r.child_name),
+      csvCell(r.age_group),
+      csvCell(r.experience),
+      csvCell(r.parent_name),
+      csvCell(r.phone),
+      csvCell(r.email),
+      csvCell(r.medical),
+      csvCell(r.lang),
+      csvCell(r.status),
+      csvCell(r.notes),
+      csvCell(new Date(r.created_at).toISOString()),
     ].join(','));
 
     const csv = [headers.join(','), ...rows].join('\n');
