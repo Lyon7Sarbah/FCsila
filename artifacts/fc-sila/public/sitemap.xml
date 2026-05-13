@@ -3,45 +3,45 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/</loc>
-    <xhtml:link rel="alternate" hreflang="ru" href="https://fc-sila-moscow.replit.app/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://fc-sila-moscow.replit.app/"/>
+    <loc>https://fcsila.ru/</loc>
+    <xhtml:link rel="alternate" hreflang="ru" href="https://fcsila.ru/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://fcsila.ru/"/>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/coaches</loc>
+    <loc>https://fcsila.ru/coaches</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/players</loc>
+    <loc>https://fcsila.ru/players</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/matches</loc>
+    <loc>https://fcsila.ru/matches</loc>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/training</loc>
+    <loc>https://fcsila.ru/training</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/gallery</loc>
+    <loc>https://fcsila.ru/gallery</loc>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
 
   <url>
-    <loc>https://fc-sila-moscow.replit.app/contact</loc>
+    <loc>https://fcsila.ru/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.9</priority>
   </url>
