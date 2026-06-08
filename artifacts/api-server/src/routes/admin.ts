@@ -157,7 +157,11 @@ router.get('/admin/stats', requireAdmin, async (_req: Request, res: Response) =>
 // GET /api/admin/registrations
 router.get('/admin/registrations', requireAdmin, async (req: Request, res: Response) => {
   try {
-    const { status, age_group, search, limit = '200', offset = '0' } = req.query as Record<string, string>;
+    const status = req.query.status as string | undefined;
+    const age_group = req.query.age_group as string | undefined;
+    const search = req.query.search as string | undefined;
+    const limit = (req.query.limit as string) || '200';
+    const offset = (req.query.offset as string) || '0';
     let where = 'WHERE 1=1';
     const params: any[] = [];
     let idx = 1;
