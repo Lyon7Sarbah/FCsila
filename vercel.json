@@ -1,0 +1,5 @@
+{
+  "buildCommand": "pnpm run build",
+  "outputDirectory": "artifacts/fc-sila/dist/public",
+  "installCommand": "pnpm install"
+}
