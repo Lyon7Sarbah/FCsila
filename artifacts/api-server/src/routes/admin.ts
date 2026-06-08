@@ -188,7 +188,7 @@ router.get('/admin/registrations', requireAdmin, async (req: Request, res: Respo
       `SELECT COUNT(*) as total FROM registrations ${where}`, params
     );
 
-    params.push(parseInt(limit), parseInt(offset));
+    params.push(parseInt(limit, 10), parseInt(offset, 10));
     const result = await pool.query(
       `SELECT * FROM registrations ${where}
        ORDER BY created_at DESC
@@ -197,7 +197,7 @@ router.get('/admin/registrations', requireAdmin, async (req: Request, res: Respo
     );
 
     res.json({
-      total: parseInt(countResult.rows[0].total),
+      total: parseInt(countResult.rows[0].total, 10),
       rows: result.rows,
     });
   } catch (err: any) {
@@ -225,7 +225,7 @@ router.patch('/admin/registrations/:id', requireAdmin, async (req: Request, res:
     if (notes !== undefined) { fields.push(`notes = $${idx++}`); params.push(notes); }
     fields.push(`updated_at = NOW()`);
 
-    params.push(parseInt(id));
+    params.push(parseInt(id, 10));
     const result = await pool.query(
       `UPDATE registrations SET ${fields.join(', ')} WHERE id = $${idx} RETURNING *`,
       params
@@ -246,7 +246,7 @@ router.patch('/admin/registrations/:id', requireAdmin, async (req: Request, res:
 router.delete('/admin/registrations/:id', requireAdmin, async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    await pool.query('DELETE FROM registrations WHERE id = $1', [parseInt(id)]);
+    await pool.query('DELETE FROM registrations WHERE id = $1', [parseInt(id, 10)]);
     res.json({ success: true });
   } catch (err: any) {
     res.status(500).json({ error: 'Database error' });
@@ -298,7 +298,7 @@ router.get('/admin/export.csv', requireAdmin, async (req: Request, res: Response
 router.post('/admin/registrations/:id/send-agreement', requireAdmin, async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const result = await pool.query('SELECT * FROM registrations WHERE id = $1', [parseInt(id)]);
+    const result = await pool.query('SELECT * FROM registrations WHERE id = $1', [parseInt(id, 10)]);
     if (result.rowCount === 0) {
       res.status(404).json({ error: 'Registration not found' });
       return;
@@ -597,7 +597,7 @@ router.post('/admin/registrations/:id/send-agreement', requireAdmin, async (req:
 
     const updated = await pool.query(
       `UPDATE registrations SET agreement_sent_at = NOW() WHERE id = $1 RETURNING *`,
-      [parseInt(id)]
+      [parseInt(id, 10)]
     );
 
     res.json({ success: true, row: updated.rows[0] });
